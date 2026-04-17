@@ -94,6 +94,7 @@ export default function ShieldVault() {
 
         .font-mono {
           font-family: 'IBM Plex Mono', monospace;
+          font-variant-numeric: tabular-nums;
         }
 
         .bg-grid {
