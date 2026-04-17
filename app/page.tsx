@@ -6,6 +6,11 @@ export default function ShieldVault() {
   const [connected, setConnected] = useState(false);
   const [activeScreen, setActiveScreen] = useState('dashboard');
   
+  // Configuration state
+  const [triggerPercent, setTriggerPercent] = useState(5);
+  const [hedgePercent, setHedgePercent] = useState(50);
+  const [timeout, setTimeout] = useState('2hr');
+
   // Dashboard mock data
   const [metrics, setMetrics] = useState({
     totalProtected: 0,
@@ -183,11 +188,11 @@ export default function ShieldVault() {
               <button
                 key={item.id}
                 onClick={() => setActiveScreen(item.id)}
-                className={\`flex items-center gap-3 px-4 py-3 rounded-[4px] text-left transition-colors \${
+                className={`flex items-center gap-3 px-4 py-3 rounded-[4px] text-left transition-colors \${
                   activeScreen === item.id 
                     ? 'bg-[var(--color-border)] text-[var(--color-accent)] border border-[var(--color-border)]' 
                     : 'text-[var(--color-muted)] hover:text-[var(--color-text)] border border-transparent'
-                }\`}
+                }`}
               >
                 <span className="font-mono">{item.icon}</span>
                 <span className="text-sm font-medium tracking-wide uppercase">{item.label}</span>
@@ -205,7 +210,7 @@ export default function ShieldVault() {
             </h2>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2 px-3 py-1.5 surface-card text-xs">
-                <span className={\`w-2 h-2 rounded-[2px] \${connected ? 'indicator-pulse' : 'bg-[var(--color-muted)]'}\`}></span>
+                <span className={`w-2 h-2 rounded-[2px] \${connected ? 'indicator-pulse' : 'bg-[var(--color-muted)]'}`}></span>
                 <span className="font-mono text-[var(--color-muted)]">
                   {connected ? '7A8b...9xP1' : 'Disconnected'}
                 </span>
@@ -240,8 +245,8 @@ export default function ShieldVault() {
                   <div className="surface-card p-5 flex flex-col justify-between">
                     <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)] mb-2">Hedge Status</span>
                     <div className="flex items-center gap-3">
-                      <span className={\`w-2 h-2 flex-shrink-0 \${hedgeActive ? 'indicator-pulse' : 'bg-[var(--color-muted)]'}\`}></span>
-                      <span className={\`text-lg md:text-xl font-mono uppercase tracking-wide \${hedgeActive ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)]'}\`}>
+                      <span className={`w-2 h-2 flex-shrink-0 \${hedgeActive ? 'indicator-pulse' : 'bg-[var(--color-muted)]'}`}></span>
+                      <span className={`text-lg md:text-xl font-mono uppercase tracking-wide \${hedgeActive ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)]'}`}>
                         {hedgeActive ? 'Active' : 'Inactive'}
                       </span>
                     </div>
@@ -345,6 +350,152 @@ export default function ShieldVault() {
                 </div>
               </div>
             )}
+
+            {activeScreen === 'protection' && (
+              <div className="flex flex-col items-center justify-center min-h-[60vh] stagger-1">
+                <div className="surface-card p-8 w-full max-w-[600px] flex flex-col gap-8 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[var(--color-border)] opacity-10 blur-[80px] pointer-events-none rounded-full translate-x-1/2 -translate-y-1/2"></div>
+                  
+                  <div className="flex items-center gap-3 border-b border-[var(--color-border)] pb-4">
+                    <span className="font-mono text-2xl text-[var(--color-accent)]">◬</span>
+                    <h3 className="font-bold tracking-widest uppercase text-lg">Set Protection Rule</h3>
+                  </div>
+
+                  <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-2 relative">
+                      <div className="flex justify-between items-center mb-1">
+                        <label className="text-[10px] uppercase font-mono tracking-widest text-[var(--color-muted)]">Trigger Drop %</label>
+                        <span className="font-mono text-[var(--color-warning)]">{triggerPercent}%</span>
+                      </div>
+                      <input 
+                        type="range" min="1" max="20" value={triggerPercent} 
+                        onChange={e => setTriggerPercent(Number(e.target.value))}
+                        className="w-full accent-[var(--color-warning)]"
+                        style={{ height: '2px', background: 'var(--color-border)', appearance: 'none', outline: 'none' }}
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <div className="flex justify-between items-center mb-1">
+                        <label className="text-[10px] uppercase font-mono tracking-widest text-[var(--color-muted)]">Hedge Size %</label>
+                        <span className="font-mono text-[var(--color-accent)]">{hedgePercent}%</span>
+                      </div>
+                      <input 
+                        type="range" min="10" max="100" value={hedgePercent} 
+                        onChange={e => setHedgePercent(Number(e.target.value))}
+                        className="w-full"
+                        style={{ height: '2px', background: 'var(--color-border)', appearance: 'none', outline: 'none' }}
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] uppercase font-mono tracking-widest text-[var(--color-muted)]">Timeout</label>
+                      <select 
+                        value={timeout} 
+                        onChange={e => setTimeout(e.target.value)}
+                        className="bg-[var(--color-base)] border border-[var(--color-border)] rounded text-[var(--color-text)] font-mono p-3 outline-none focus:border-[var(--color-accent)]"
+                      >
+                        <option value="30min">30 Min</option>
+                        <option value="1hr">1 Hr</option>
+                        <option value="2hr">2 Hr</option>
+                        <option value="4hr">4 Hr</option>
+                        <option value="never">Never</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-[var(--color-base)] border border-[var(--color-border)] rounded flex flex-col gap-2 font-mono text-sm leading-relaxed">
+                    <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)] mb-1">Execution Preview</span>
+                    <div>If SOL drops from <span className="text-[var(--color-muted)]">$180.42</span> to <span className="text-[var(--color-warning)] drop-shadow-[0_0_4px_rgba(255,184,0,0.5)]">${(180.42 * (1 - triggerPercent/100)).toFixed(2)}</span>:</div>
+                    <div className="text-[var(--color-accent)]">System opens ${(metrics.totalProtected * (hedgePercent/100) * 180.42).toLocaleString(undefined, {maximumFractionDigits:0})} short on Drift</div>
+                    <div className="text-[var(--color-muted)] text-xs mt-2 border-t border-[var(--color-border)] pt-2 flex justify-between">
+                      <span>Est. Hourly Cost:</span>
+                      <span>~0.00142 SOL</span>
+                    </div>
+                  </div>
+
+                  <button className="btn-primary w-full py-4 font-bold tracking-widest uppercase bg-[var(--color-accent)] text-[var(--color-base)] border-none hover:bg-[#00e6bc] hover:shadow-[0_0_15px_rgba(0,255,209,0.3)] transition-all">
+                    Activate Protection
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {activeScreen === 'proof' && (
+              <div className="flex flex-col items-center justify-center min-h-[60vh] stagger-1">
+                <div className="surface-card p-8 w-full max-w-[700px] flex flex-col gap-8">
+                  <div className="flex items-center gap-3 border-b border-[var(--color-border)] pb-4">
+                    <span className="font-mono text-2xl text-[var(--color-text)]">⎚</span>
+                    <h3 className="font-bold tracking-widest uppercase text-lg">Proof Verification</h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)]">Rule Hash</span>
+                      <span className="font-mono text-[var(--color-text)] text-sm break-all">0x8f2a1b9c...e4d5f6c391</span>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)]">Execution Timestamp</span>
+                      <span className="font-mono text-[var(--color-accent)] text-sm">2026-04-17 12:00:00 UTC</span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)]">Operator Signatures</span>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center justify-between p-3 bg-[var(--color-base)] border border-[var(--color-border)] rounded">
+                        <span className="font-mono text-sm">GqT7...W8p2</span>
+                        <span className="text-[var(--color-accent)] font-mono">✓ SIGNED</span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-[var(--color-base)] border border-[var(--color-border)] rounded">
+                        <span className="font-mono text-sm">5kR9...Qm3z</span>
+                        <span className="text-[var(--color-accent)] font-mono">✓ SIGNED</span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-[var(--color-base)] border border-[var(--color-border)] rounded opacity-50">
+                        <span className="font-mono text-sm">Ax4n...L7b1</span>
+                        <span className="text-[var(--color-warning)] font-mono">PENDING</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button className="btn-primary w-full py-3 font-bold tracking-widest uppercase mt-4">
+                    Verify On-Chain
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {activeScreen === 'withdraw' && (
+              <div className="flex flex-col items-center justify-center min-h-[60vh] stagger-1">
+                <div className="surface-card p-8 w-full max-w-[500px] flex flex-col gap-8">
+                  <div className="flex justify-between items-center border-b border-[var(--color-border)] pb-4">
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-2xl text-[var(--color-text)]">⎋</span>
+                      <h3 className="font-bold tracking-widest uppercase text-lg">Withdraw SOL</h3>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-center gap-2 py-6">
+                    <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)]">Available Balance</span>
+                    <span className="font-mono text-4xl text-[var(--color-text)]">125,000 <span className="text-[var(--color-muted)] text-xl">SOL</span></span>
+                  </div>
+
+                  {hedgeActive && (
+                    <div className="p-4 bg-[rgba(255,184,0,0.05)] border border-[var(--color-warning)] rounded flex items-start gap-3 text-[var(--color-warning)]">
+                      <span className="mt-0.5">⚠️</span>
+                      <div className="flex flex-col gap-1">
+                        <span className="font-bold uppercase text-[10px] tracking-widest">Active sequence will unwind</span>
+                        <span className="text-xs font-mono opacity-90 leading-relaxed">Active hedge will be auto-closed. Estimated close cost: 0.003 SOL. Validation may take ~15s.</span>
+                      </div>
+                    </div>
+                  )}
+
+                  <button className="btn-primary w-full py-4 font-bold tracking-widest uppercase flex justify-center items-center gap-2 border-[var(--color-text)] text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-base)]">
+                    Confirm Withdrawal
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </main>
 
@@ -354,9 +505,9 @@ export default function ShieldVault() {
               <button
                 key={id}
                 onClick={() => setActiveScreen(id)}
-                className={\`flex flex-col items-center gap-1 \${
+                className={`flex flex-col items-center gap-1 \${
                   activeScreen === id ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)]'
-                }\`}
+                }`}
               >
                 <div className="w-1 h-1 rounded-[1px] bg-current"></div>
                 <span className="text-[10px] font-mono uppercase">{id.substring(0,4)}</span>
