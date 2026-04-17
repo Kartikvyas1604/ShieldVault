@@ -219,34 +219,127 @@ export default function ShieldVault() {
             </div>
           </header>
 
-          <div className="p-8 max-w-[1200px] w-full mx-auto">
+          <div className="p-4 md:p-8 max-w-[1200px] w-full mx-auto pb-[100px] md:pb-8">
             {activeScreen === 'dashboard' && (
               <div className="flex flex-col gap-6">
+                
                 {/* Hero metrics */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 stagger-2">
-                  <div className="surface-card p-5 flex flex-col gap-2">
-                    <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)]">Total Protected</span>
-                    <div className="text-2xl font-mono text-[var(--color-text)]">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 stagger-2">
+                  <div className="surface-card p-5 flex flex-col justify-between">
+                    <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)] mb-2">Total Protected</span>
+                    <div className="text-xl md:text-2xl font-mono text-[var(--color-text)]">
                       {metrics.totalProtected.toLocaleString(undefined, { maximumFractionDigits: 2 })} <span className="text-[var(--color-muted)] text-sm">SOL</span>
                     </div>
                   </div>
-                  <div className="surface-card p-5 flex flex-col gap-2">
-                    <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)]">Current SOL Price</span>
-                    <div className="text-2xl font-mono text-[var(--color-text)]">
+                  <div className="surface-card p-5 flex flex-col justify-between">
+                    <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)] mb-2">Current SOL Price</span>
+                    <div className="text-xl md:text-2xl font-mono text-[var(--color-text)]">
                       ${metrics.solPrice.toFixed(2)}
                     </div>
                   </div>
-                  <div className="surface-card p-5 flex flex-col gap-2">
-                    <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)]">Hedge Status</span>
+                  <div className="surface-card p-5 flex flex-col justify-between">
+                    <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)] mb-2">Hedge Status</span>
                     <div className="flex items-center gap-3">
-                      <span className="indicator-pulse w-2 h-2 rounded-[2px]"></span>
-                      <span className="text-xl font-mono text-[var(--color-accent)] uppercase tracking-wide">Active</span>
+                      <span className={\`w-2 h-2 flex-shrink-0 \${hedgeActive ? 'indicator-pulse' : 'bg-[var(--color-muted)]'}\`}></span>
+                      <span className={\`text-lg md:text-xl font-mono uppercase tracking-wide \${hedgeActive ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)]'}\`}>
+                        {hedgeActive ? 'Active' : 'Inactive'}
+                      </span>
                     </div>
                   </div>
-                  <div className="surface-card p-5 flex flex-col gap-2">
-                    <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)]">Protection P&L</span>
-                    <div className="text-2xl font-mono text-[var(--color-warning)]">
-                      {metrics.protectionPnL.toFixed(3)} <span className="text-[var(--color-muted)] text-sm">SOL</span>
+                  <div className="surface-card p-5 flex flex-col justify-between">
+                    <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)] mb-2">Protection P&L</span>
+                    <div className="text-xl md:text-2xl font-mono text-[var(--color-warning)]">
+                      {metrics.protectionPnL > 0 ? '+' : ''}{metrics.protectionPnL.toFixed(3)} <span className="text-[var(--color-muted)] text-sm">SOL</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Left Column */}
+                  <div className="lg:col-span-2 flex flex-col gap-6">
+                    {/* Active Hedge Panel */}
+                    <div className="surface-card p-6 flex flex-col gap-6 stagger-3 relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--color-border)] opacity-10 blur-[100px] pointer-events-none rounded-full translate-x-1/2 -translate-y-1/2"></div>
+                      
+                      <div className="flex justify-between items-start">
+                        <div className="flex items-center gap-3">
+                          <span className="font-mono text-xl text-[var(--color-accent)]">◬</span>
+                          <h3 className="font-bold tracking-widest uppercase text-sm">Active Hedge Monitor</h3>
+                        </div>
+                        <span className="text-[10px] uppercase font-mono text-[var(--color-muted)] tracking-wider border border-[var(--color-border)] px-2 py-1 rounded">Drift Protocol</span>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)]">Entry Price</span>
+                          <span className="font-mono text-lg">${(185.00).toFixed(2)}</span>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)]">Short Size</span>
+                          <span className="font-mono text-lg">1,250 <span className="text-[var(--color-muted)] text-xs">SOL</span></span>
+                        </div>
+                        <div className="flex flex-col gap-1 relative">
+                          <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)]">Funding Cost (Accruing)</span>
+                          <span className="font-mono text-lg text-[var(--color-warning)] drop-shadow-[0_0_8px_rgba(255,184,0,0.5)]">
+                            -{metrics.fundingCost.toFixed(5)} <span className="text-[var(--color-muted)] text-xs">SOL</span>
+                          </span>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[10px] uppercase tracking-widest text-[var(--color-muted)]">Liq. Distance</span>
+                          <span className="font-mono text-lg text-[var(--color-accent)]">24.5%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Protection Rule Card */}
+                    <div className="surface-card p-6 flex flex-col gap-4 stagger-4">
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-3">
+                          <span className="font-mono text-xl text-[var(--color-muted)]">⚡</span>
+                          <h3 className="font-bold tracking-widest uppercase text-sm">System Ruleset</h3>
+                        </div>
+                        <button onClick={() => setActiveScreen('protection')} className="btn-primary px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider font-mono">
+                          EDIT PARAMETERS
+                        </button>
+                      </div>
+                      <div className="flex items-center gap-4 bg-[var(--color-base)] border border-[var(--color-border)] p-4 rounded text-sm font-mono tracking-wide">
+                        <span className="text-[var(--color-muted)]">TRIGGERS AT</span>
+                        <span className="text-[var(--color-warning)]">-5%</span>
+                        <span className="text-[var(--color-muted)]">→</span>
+                        <span className="text-[var(--color-text)]">50% HEDGE</span>
+                        <span className="text-[var(--color-muted)]">→</span>
+                        <span className="text-[var(--color-text)] relative">
+                          2HR TIMEOUT
+                          <span className="absolute -right-2 top-0 w-1.5 h-1.5 rounded bg-[var(--color-accent)] indicator-pulse"></span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column */}
+                  <div className="surface-card p-6 flex flex-col gap-6 stagger-5">
+                    <div className="flex items-center gap-3 border-b border-[var(--color-border)] pb-4">
+                      <span className="font-mono text-xl text-[var(--color-muted)]">⌘</span>
+                      <h3 className="font-bold tracking-widest uppercase text-sm">Activity Feed</h3>
+                    </div>
+                    <div className="flex flex-col gap-4 overflow-y-auto max-h-[300px] pr-2">
+                      {[
+                        { time: '14:02:11', event: 'Funding accrued', detail: '-0.00014 SOL', color: 'var(--color-warning)' },
+                        { time: '13:45:00', event: 'Proof generated', detail: '0x8f2a...c391', color: 'var(--color-text)' },
+                        { time: '13:20:18', event: 'Price checked', detail: '$180.42 OK', color: 'var(--color-muted)' },
+                        { time: '12:00:00', event: 'Hedge opened', detail: 'Size: 1.2k SOL', color: 'var(--color-accent)' },
+                      ].map((log, i) => (
+                        <div key={i} className="flex gap-4 border-l 2px border-[var(--color-border)] pl-4 relative">
+                          <span className="absolute -left-[5px] top-1 w-2 h-2 bg-[var(--color-base)] border border-[var(--color-border)] rounded-full"></span>
+                          <div className="flex flex-col gap-1 w-full text-xs">
+                            <div className="flex justify-between font-mono">
+                              <span className="text-[var(--color-muted)]">{log.time}</span>
+                              <span style={{ color: log.color }}>{log.detail}</span>
+                            </div>
+                            <span className="uppercase tracking-widest text-[#8A8A9A]">{log.event}</span>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
