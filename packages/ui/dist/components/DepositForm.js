@@ -43,12 +43,21 @@ function DepositForm({ onSuccess }) {
     const { publicKey, sendTransaction } = (0, wallet_adapter_react_1.useWallet)();
     const [amount, setAmount] = (0, react_1.useState)("");
     const [loading, setLoading] = (0, react_1.useState)(false);
+    const [error, setError] = (0, react_1.useState)("");
     const handleDeposit = async () => {
         if (!publicKey)
             return;
         setLoading(true);
+        setError("");
         try {
-            const lamports = BigInt(parseFloat(amount) * 1e9);
+            const isInitialized = await (0, sdk_1.checkVaultInitialized)(connection);
+            if (!isInitialized) {
+                const initIx = (0, sdk_1.createInitializeInstruction)(publicKey);
+                const initTx = new web3_js_1.Transaction().add(initIx);
+                await sendTransaction(initTx, connection);
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            }
+            const lamports = BigInt(Math.floor(parseFloat(amount) * 1e9));
             const instruction = (0, sdk_1.createDepositInstruction)(publicKey, lamports);
             const transaction = new web3_js_1.Transaction().add(instruction);
             const signature = await sendTransaction(transaction, connection);
@@ -56,15 +65,23 @@ function DepositForm({ onSuccess }) {
             onSuccess?.();
             setAmount("");
         }
-        catch (error) {
-            console.error("Deposit failed:", error);
+        catch (err) {
+            console.error("Deposit failed:", err);
+            const msg = err?.message || "Transaction failed";
+            if (msg.includes("AccountNotFound") || msg.includes("could not find account")) {
+                setError("Program not deployed. Run: npm run program:build && npm run program:deploy");
+            }
+            else {
+                setError(msg);
+            }
         }
         finally {
             setLoading(false);
         }
     };
     return (react_1.default.createElement("div", { className: "deposit-form" },
-        react_1.default.createElement("input", { type: "number", value: amount, onChange: (e) => setAmount(e.target.value), placeholder: "Amount (SOL)", disabled: loading }),
-        react_1.default.createElement("button", { onClick: handleDeposit, disabled: !publicKey || loading }, loading ? "Processing..." : "Deposit")));
+        react_1.default.createElement("input", { type: "number", value: amount, onChange: (e) => setAmount(e.target.value), placeholder: "Amount (SOL)", disabled: loading, step: "0.01", min: "0" }),
+        error && react_1.default.createElement("p", { className: "error-text" }, error),
+        react_1.default.createElement("button", { onClick: handleDeposit, disabled: !publicKey || loading || !amount }, loading ? "Processing..." : "Deposit")));
 }
 //# sourceMappingURL=DepositForm.js.map

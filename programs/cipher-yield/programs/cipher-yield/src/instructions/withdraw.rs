@@ -25,7 +25,7 @@ pub struct Withdraw<'info> {
     pub system_program: Program<'info, System>,
 }
 
-pub fn handler(ctx: Context<Withdraw>, shares: u64) -> Result<()> {
+pub fn withdraw(ctx: Context<Withdraw>, shares: u64) -> Result<()> {
     require!(!ctx.accounts.vault.paused, CipherYieldError::VaultPaused);
     require!(shares > 0, CipherYieldError::InvalidAmount);
     require!(

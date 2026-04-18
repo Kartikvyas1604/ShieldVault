@@ -18,6 +18,7 @@ exports.PROGRAM_ID = void 0;
 __exportStar(require("./instructions"), exports);
 __exportStar(require("./pda"), exports);
 __exportStar(require("./types"), exports);
+__exportStar(require("./utils"), exports);
 var pda_1 = require("./pda");
 Object.defineProperty(exports, "PROGRAM_ID", { enumerable: true, get: function () { return pda_1.PROGRAM_ID; } });
 //# sourceMappingURL=index.js.map

@@ -18,7 +18,7 @@ pub struct Initialize<'info> {
     pub system_program: Program<'info, System>,
 }
 
-pub fn handler(ctx: Context<Initialize>) -> Result<()> {
+pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
     let vault = &mut ctx.accounts.vault;
     vault.authority = ctx.accounts.authority.key();
     vault.total_deposited = 0;
