@@ -19,13 +19,13 @@ export default function VaultPage() {
 
   return (
     <main className="min-h-screen bg-[#0A0A0B] grid-overlay">
-      <div className="max-w-[1600px] mx-auto px-6 py-8">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-white mb-2">Vault Operations</h1>
-          <p className="text-[#666] text-sm font-mono">Non-custodial share-based vault · Instant settlement</p>
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl font-bold text-white mb-2">Vault Operations</h1>
+          <p className="text-[#666] text-xs sm:text-sm font-mono">Non-custodial share-based vault · Instant settlement</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div className="vault-card p-6 animate-fade-up">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-semibold text-white">DEPOSIT</h2>
@@ -73,7 +73,7 @@ export default function VaultPage() {
 
         <div className="vault-card p-6 animate-fade-up" style={{ animationDelay: "200ms" }}>
           <h3 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Vault Metrics</h3>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <div className="text-[#666] text-xs mb-1">Total Deposited</div>
               <div className="text-white text-xl font-mono">{loading ? "..." : `${totalDeposited.toFixed(2)} SOL`}</div>

@@ -15,8 +15,8 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen bg-[#0A0A0B] grid-overlay">
-      <div className="max-w-[1600px] mx-auto px-6 py-8">
-        <div className="grid grid-cols-4 gap-4 mb-8 animate-fade-up">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-fade-up">
           <div className="stat-block">
             <div className="text-[#666] text-xs uppercase tracking-wider mb-1">Total Value Locked</div>
             <div className="text-white text-3xl font-mono mb-1">
@@ -45,8 +45,8 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-6 mb-8">
-          <div className="vault-card p-6 col-span-2 animate-fade-up" style={{ animationDelay: "100ms" }}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <div className="vault-card p-6 lg:col-span-2 animate-fade-up" style={{ animationDelay: "100ms" }}>
             <h2 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Market Overview</h2>
             <div className="space-y-3">
               {["SOL/USD", "BTC/USD", "ETH/USD"].map((pair, i) => (
