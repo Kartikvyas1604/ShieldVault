@@ -25,6 +25,9 @@ export function DepositForm({ onSuccess }: DepositFormProps) {
       if (!isInitialized) {
         const initIx = createInitializeInstruction(publicKey);
         const initTx = new Transaction().add(initIx);
+        const { blockhash } = await connection.getLatestBlockhash();
+        initTx.recentBlockhash = blockhash;
+        initTx.feePayer = publicKey;
 
         const sig = await sendTransaction(initTx, connection);
         await connection.confirmTransaction(sig, "confirmed");
@@ -33,6 +36,9 @@ export function DepositForm({ onSuccess }: DepositFormProps) {
       const lamports = BigInt(Math.floor(parseFloat(amount) * 1e9));
       const instruction = createDepositInstruction(publicKey, lamports);
       const transaction = new Transaction().add(instruction);
+      const { blockhash } = await connection.getLatestBlockhash();
+      transaction.recentBlockhash = blockhash;
+      transaction.feePayer = publicKey;
 
       const signature = await sendTransaction(transaction, connection);
       await connection.confirmTransaction(signature, "confirmed");

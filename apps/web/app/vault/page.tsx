@@ -2,15 +2,20 @@
 
 import { DepositForm, WithdrawForm } from "@solana-frontier/ui";
 import { useState, useEffect } from "react";
+import { useVaultData } from "../../lib/hooks/useVaultData";
 
 export default function VaultPage() {
   const [mounted, setMounted] = useState(false);
+  const { totalDeposited, totalShares, userShares, userBalance, loading } = useVaultData();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!mounted) return null;
+
+  const sharePrice = totalShares > 0 ? totalDeposited / totalShares : 1;
+  const userValue = userShares * sharePrice;
 
   return (
     <main className="min-h-screen bg-[#0A0A0B] grid-overlay">
@@ -26,19 +31,19 @@ export default function VaultPage() {
               <h2 className="text-lg font-semibold text-white">DEPOSIT</h2>
               <span className="text-[#666] text-xs font-mono">MINT SHARES</span>
             </div>
-            <DepositForm onSuccess={() => console.log("Deposit successful")} />
+            <DepositForm onSuccess={() => window.location.reload()} />
             <div className="mt-6 pt-6 border-t border-[#1F1F1F]">
               <div className="flex justify-between text-xs font-mono mb-2">
                 <span className="text-[#666]">Your Balance</span>
-                <span className="text-white">0.00 SOL</span>
+                <span className="text-white">{loading ? "..." : `${userBalance.toFixed(4)} SOL`}</span>
               </div>
               <div className="flex justify-between text-xs font-mono mb-2">
                 <span className="text-[#666]">Your Shares</span>
-                <span className="text-white">0</span>
+                <span className="text-white">{loading ? "..." : userShares.toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-xs font-mono">
                 <span className="text-[#666]">Share Price</span>
-                <span className="text-white">1.00 SOL</span>
+                <span className="text-white">{loading ? "..." : `${sharePrice.toFixed(4)} SOL`}</span>
               </div>
             </div>
           </div>
@@ -48,11 +53,11 @@ export default function VaultPage() {
               <h2 className="text-lg font-semibold text-white">WITHDRAW</h2>
               <span className="text-[#666] text-xs font-mono">BURN SHARES</span>
             </div>
-            <WithdrawForm onSuccess={() => console.log("Withdraw successful")} />
+            <WithdrawForm onSuccess={() => window.location.reload()} />
             <div className="mt-6 pt-6 border-t border-[#1F1F1F]">
               <div className="flex justify-between text-xs font-mono mb-2">
                 <span className="text-[#666]">Withdrawable</span>
-                <span className="text-white">0.00 SOL</span>
+                <span className="text-white">{loading ? "..." : `${userValue.toFixed(4)} SOL`}</span>
               </div>
               <div className="flex justify-between text-xs font-mono mb-2">
                 <span className="text-[#666]">Exit Fee</span>
@@ -71,11 +76,11 @@ export default function VaultPage() {
           <div className="grid grid-cols-4 gap-4">
             <div>
               <div className="text-[#666] text-xs mb-1">Total Deposited</div>
-              <div className="text-white text-xl font-mono">0 SOL</div>
+              <div className="text-white text-xl font-mono">{loading ? "..." : `${totalDeposited.toFixed(2)} SOL`}</div>
             </div>
             <div>
               <div className="text-[#666] text-xs mb-1">Total Shares</div>
-              <div className="text-white text-xl font-mono">0</div>
+              <div className="text-white text-xl font-mono">{loading ? "..." : totalShares.toLocaleString()}</div>
             </div>
             <div>
               <div className="text-[#666] text-xs mb-1">Utilization</div>

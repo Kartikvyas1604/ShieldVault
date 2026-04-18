@@ -13,7 +13,7 @@ export default function Navigation() {
   const pathname = usePathname();
 
   const links = [
-    { href: "/", label: "Dashboard" },
+    { href: "/dashboard", label: "Dashboard" },
     { href: "/vault", label: "Vault" },
     { href: "/strategies", label: "Strategies" },
     { href: "/positions", label: "Positions" },

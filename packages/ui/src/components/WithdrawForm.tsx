@@ -21,6 +21,9 @@ export function WithdrawForm({ onSuccess }: WithdrawFormProps) {
       const sharesAmount = BigInt(shares);
       const instruction = createWithdrawInstruction(publicKey, sharesAmount);
       const transaction = new Transaction().add(instruction);
+      const { blockhash } = await connection.getLatestBlockhash();
+      transaction.recentBlockhash = blockhash;
+      transaction.feePayer = publicKey;
 
       const signature = await sendTransaction(transaction, connection);
       await connection.confirmTransaction(signature, "confirmed");
