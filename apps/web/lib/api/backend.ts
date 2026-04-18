@@ -49,7 +49,7 @@ class ApiService {
       if (!response.ok) return null;
       return await response.json();
     } catch (error) {
-      console.error('Failed to fetch vault state:', error);
+      // Silently fail if backend is not running
       return null;
     }
   }
@@ -61,7 +61,6 @@ class ApiService {
       const data = await response.json();
       return data.snapshots || [];
     } catch (error) {
-      console.error('Failed to fetch NAV history:', error);
       return [];
     }
   }
@@ -73,7 +72,6 @@ class ApiService {
       const data = await response.json();
       return data.proofs || [];
     } catch (error) {
-      console.error('Failed to fetch proof list:', error);
       return [];
     }
   }
@@ -84,7 +82,6 @@ class ApiService {
       if (!response.ok) return null;
       return await response.json();
     } catch (error) {
-      console.error('Failed to fetch proof:', error);
       return null;
     }
   }
@@ -95,7 +92,6 @@ class ApiService {
       if (!response.ok) return null;
       return await response.json();
     } catch (error) {
-      console.error('Failed to fetch health status:', error);
       return null;
     }
   }

@@ -54,12 +54,18 @@ function DepositForm({ onSuccess }) {
             if (!isInitialized) {
                 const initIx = (0, sdk_1.createInitializeInstruction)(publicKey);
                 const initTx = new web3_js_1.Transaction().add(initIx);
-                await sendTransaction(initTx, connection);
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                const { blockhash } = await connection.getLatestBlockhash();
+                initTx.recentBlockhash = blockhash;
+                initTx.feePayer = publicKey;
+                const sig = await sendTransaction(initTx, connection);
+                await connection.confirmTransaction(sig, "confirmed");
             }
             const lamports = BigInt(Math.floor(parseFloat(amount) * 1e9));
             const instruction = (0, sdk_1.createDepositInstruction)(publicKey, lamports);
             const transaction = new web3_js_1.Transaction().add(instruction);
+            const { blockhash } = await connection.getLatestBlockhash();
+            transaction.recentBlockhash = blockhash;
+            transaction.feePayer = publicKey;
             const signature = await sendTransaction(transaction, connection);
             await connection.confirmTransaction(signature, "confirmed");
             onSuccess?.();
@@ -67,12 +73,23 @@ function DepositForm({ onSuccess }) {
         }
         catch (err) {
             console.error("Deposit failed:", err);
+            console.error("Error details:", {
+                message: err?.message,
+                logs: err?.logs,
+                code: err?.code,
+            });
             const msg = err?.message || "Transaction failed";
             if (msg.includes("AccountNotFound") || msg.includes("could not find account")) {
-                setError("Program not deployed. Run: npm run program:build && npm run program:deploy");
+                setError("Program not deployed");
+            }
+            else if (msg.includes("insufficient funds") || msg.includes("Attempt to debit")) {
+                setError("Insufficient SOL in wallet");
+            }
+            else if (err?.logs) {
+                setError(`TX failed: ${err.logs.join(", ").substring(0, 80)}`);
             }
             else {
-                setError(msg);
+                setError(msg.length > 80 ? msg.substring(0, 80) + "..." : msg);
             }
         }
         finally {

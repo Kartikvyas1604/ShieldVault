@@ -1,7 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useWallet } from "@solana/wallet-adapter-react";
+
+export default function LandingPage() {
+  const router = useRouter();
 
   return (
     <main className="min-h-screen bg-[#0A0A0B] grid-overlay">

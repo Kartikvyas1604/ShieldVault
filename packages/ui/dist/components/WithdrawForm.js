@@ -51,6 +51,9 @@ function WithdrawForm({ onSuccess }) {
             const sharesAmount = BigInt(shares);
             const instruction = (0, sdk_1.createWithdrawInstruction)(publicKey, sharesAmount);
             const transaction = new web3_js_1.Transaction().add(instruction);
+            const { blockhash } = await connection.getLatestBlockhash();
+            transaction.recentBlockhash = blockhash;
+            transaction.feePayer = publicKey;
             const signature = await sendTransaction(transaction, connection);
             await connection.confirmTransaction(signature, "confirmed");
             onSuccess?.();
