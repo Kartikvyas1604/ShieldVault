@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: cipher
+      POSTGRES_PASSWORD: cipher_dev_password
+      POSTGRES_DB: cipher_yield
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cipher"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://cipher:cipher_dev_password@postgres:5432/cipher_yield
+      REDIS_URL: redis://redis:6379
+      SOLANA_RPC_URL: http://validator:8899
+      SOLANA_WS_URL: ws://validator:8900
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+      - ./prisma:/app/prisma
+
+  validator:
+    image: solanalabs/solana:v1.18.0
+    command: solana-test-validator --reset
+    ports:
+      - "8899:8899"
+      - "8900:8900"
+    healthcheck:
+      test: ["CMD-SHELL", "solana cluster-version"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mock-enclave:
+    build:
+      context: ./mock-enclave
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      ENCLAVE_MODE: mock
+
+volumes:
+  postgres_data:
+  redis_data:
