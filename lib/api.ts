@@ -1,4 +1,11 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_BASE = '';
+
+const mockData = {
+  vaultState: { solAmount: 2.5, shares: 2500000, status: 'ACTIVE' },
+  priceData: { consensusPrice: 142.35, pythPrice: 142.32, jupiterPrice: 142.38, isValid: true },
+  activeHedge: null,
+  policy: null,
+};
 
 export async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
   const response = await fetch(`${API_BASE}${endpoint}`, {
