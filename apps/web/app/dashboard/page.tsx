@@ -1,9 +1,11 @@
 "use client";
 
 import { useVaultData } from "../../lib/hooks/useVaultData";
+import { useBackendData } from "../../lib/hooks/useBackendData";
 
 export default function Dashboard() {
   const { totalDeposited, totalShares, loading } = useVaultData();
+  const { vaultState, healthStatus, isBackendConnected } = useBackendData();
 
   return (
     <main className="min-h-screen bg-[#0A0A0B] grid-overlay">
@@ -59,8 +61,10 @@ export default function Dashboard() {
               <div className="flex items-center justify-between">
                 <span className="text-[#666] text-xs">TEE Execution</span>
                 <div className="flex items-center gap-2">
-                  <div className="status-indicator active"></div>
-                  <span className="text-[#00D4FF] text-xs font-mono">ONLINE</span>
+                  <div className={`status-indicator ${isBackendConnected ? 'active' : ''}`}></div>
+                  <span className={`text-xs font-mono ${isBackendConnected ? 'text-[#00D4FF]' : 'text-[#666]'}`}>
+                    {isBackendConnected ? 'ONLINE' : 'OFFLINE'}
+                  </span>
                 </div>
               </div>
               <div className="flex items-center justify-between">
@@ -70,8 +74,10 @@ export default function Dashboard() {
               <div className="flex items-center justify-between">
                 <span className="text-[#666] text-xs">Price Oracle</span>
                 <div className="flex items-center gap-2">
-                  <div className="status-indicator active"></div>
-                  <span className="text-[#00D4FF] text-xs font-mono">SYNCED</span>
+                  <div className={`status-indicator ${healthStatus?.checks?.redis ? 'active' : ''}`}></div>
+                  <span className={`text-xs font-mono ${healthStatus?.checks?.redis ? 'text-[#00D4FF]' : 'text-[#666]'}`}>
+                    {healthStatus?.checks?.redis ? 'SYNCED' : 'OFFLINE'}
+                  </span>
                 </div>
               </div>
             </div>

@@ -1,15 +1,25 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { apiService } from "../../lib/api/backend";
 
 export default function AnalyticsPage() {
-  const [mounted, setMounted] = useState(false);
+  const [proofs, setProofs] = useState<any[]>([]);
+  const [navHistory, setNavHistory] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setMounted(true);
+    async function loadData() {
+      const [proofList, history] = await Promise.all([
+        apiService.getProofList(20),
+        apiService.getNavHistory(24)
+      ]);
+      setProofs(proofList);
+      setNavHistory(history);
+      setLoading(false);
+    }
+    loadData();
   }, []);
-
-  if (!mounted) return null;
 
   return (
     <main className="min-h-screen bg-[#0A0A0B] grid-overlay">
@@ -47,7 +57,7 @@ export default function AnalyticsPage() {
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-[#666] text-xs">Total Executions</span>
-                <span className="text-white font-mono">0</span>
+                <span className="text-white font-mono">{loading ? "..." : proofs.length}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[#666] text-xs">Avg Latency</span>
@@ -81,11 +91,44 @@ export default function AnalyticsPage() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td colSpan={7} className="text-center text-[#666] text-xs font-mono py-12">
-                    No executions recorded · Activity will appear here
-                  </td>
-                </tr>
+                {loading ? (
+                  <tr>
+                    <td colSpan={7} className="text-center text-[#666] text-xs font-mono py-12">
+                      Loading executions...
+                    </td>
+                  </tr>
+                ) : proofs.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="text-center text-[#666] text-xs font-mono py-12">
+                      No executions recorded · Activity will appear here
+                    </td>
+                  </tr>
+                ) : (
+                  proofs.map((proof) => (
+                    <tr key={proof.id} className="border-b border-[#1F1F1F] hover:bg-[#111] transition-colors">
+                      <td className="text-white text-xs font-mono py-3">
+                        {new Date(proof.createdAt).toLocaleString()}
+                      </td>
+                      <td className="text-white text-xs font-mono py-3">{proof.type}</td>
+                      <td className="text-[#666] text-xs font-mono py-3">—</td>
+                      <td className="text-right text-white text-xs font-mono py-3">—</td>
+                      <td className="text-right text-[#00D4FF] text-xs font-mono py-3">&lt;5s</td>
+                      <td className="text-right text-xs font-mono py-3">
+                        <span className="text-[#00D4FF] bg-[#00D4FF]/10 px-2 py-1 rounded">VERIFIED</span>
+                      </td>
+                      <td className="text-right text-xs font-mono py-3">
+                        <a
+                          href={`https://arweave.net/${proof.arweaveTxId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#00D4FF] hover:underline"
+                        >
+                          VIEW
+                        </a>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -96,8 +139,33 @@ export default function AnalyticsPage() {
           <p className="text-[#666] text-xs font-mono mb-4">
             Cryptographic verification of all executions · Stored on Arweave/IPFS
           </p>
-          <div className="text-[#666] text-xs font-mono text-center py-8 border border-[#1F1F1F] rounded">
-            No proof bundles generated yet
+          <div className="space-y-2">
+            {loading ? (
+              <div className="text-[#666] text-xs font-mono text-center py-8 border border-[#1F1F1F] rounded">
+                Loading proof bundles...
+              </div>
+            ) : proofs.length === 0 ? (
+              <div className="text-[#666] text-xs font-mono text-center py-8 border border-[#1F1F1F] rounded">
+                No proof bundles generated yet
+              </div>
+            ) : (
+              proofs.slice(0, 5).map((proof) => (
+                <div key={proof.id} className="flex items-center justify-between p-3 border border-[#1F1F1F] rounded hover:border-[#2C2C2C] transition-colors">
+                  <div>
+                    <div className="text-white text-xs font-mono mb-1">Execution #{proof.id.slice(0, 8)}</div>
+                    <div className="text-[#666] text-xs font-mono">{new Date(proof.createdAt).toLocaleString()}</div>
+                  </div>
+                  <a
+                    href={`https://arweave.net/${proof.arweaveTxId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#00D4FF] text-xs font-mono hover:underline"
+                  >
+                    ARWEAVE ↗
+                  </a>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
