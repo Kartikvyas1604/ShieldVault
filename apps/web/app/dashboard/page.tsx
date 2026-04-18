@@ -1,17 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useVaultData } from "../../lib/hooks/useVaultData";
 
 export default function Dashboard() {
-  const [mounted, setMounted] = useState(false);
   const { totalDeposited, totalShares, loading } = useVaultData();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   return (
     <main className="min-h-screen bg-[#0A0A0B] grid-overlay">

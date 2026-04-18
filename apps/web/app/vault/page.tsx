@@ -1,18 +1,10 @@
 "use client";
 
 import { DepositForm, WithdrawForm } from "@solana-frontier/ui";
-import { useState, useEffect } from "react";
 import { useVaultData } from "../../lib/hooks/useVaultData";
 
 export default function VaultPage() {
-  const [mounted, setMounted] = useState(false);
   const { totalDeposited, totalShares, userShares, userBalance, loading } = useVaultData();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   const sharePrice = totalShares > 0 ? totalDeposited / totalShares : 1;
   const userValue = userShares * sharePrice;

@@ -1,19 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useWallet } from "@solana/wallet-adapter-react";
-
-export default function LandingPage() {
-  const [mounted, setMounted] = useState(false);
-  const router = useRouter();
-  const { publicKey } = useWallet();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   return (
     <main className="min-h-screen bg-[#0A0A0B] grid-overlay">
