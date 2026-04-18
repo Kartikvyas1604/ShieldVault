@@ -1,15 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { apiService } from "../../lib/api/backend";
 
 export default function PositionsPage() {
-  const [mounted, setMounted] = useState(false);
+  const [hedgePositions, setHedgePositions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setMounted(true);
+    async function loadData() {
+      const vaultState = await apiService.getVaultState();
+      setLoading(false);
+    }
+    loadData();
   }, []);
-
-  if (!mounted) return null;
 
   return (
     <main className="min-h-screen bg-[#0A0A0B] grid-overlay">
