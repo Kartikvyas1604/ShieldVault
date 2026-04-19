@@ -24,9 +24,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistMono.variable} antialiased`}>
         <WalletContextProvider>
-          <div className="min-h-screen bg-[#0A0A0B]">
+          <div className="min-h-screen bg-[#0A0A0B] relative">
+            <div className="terminal-grid" />
             <Header />
-            <main className="max-w-[1400px] mx-auto px-6 py-8">
+            <main className="max-w-[1600px] mx-auto px-6 py-6 relative z-10">
               {children}
             </main>
           </div>

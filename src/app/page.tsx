@@ -2,58 +2,88 @@
 
 import { useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { VaultOverview } from '@/components/dashboard/VaultOverview';
-import { PositionsList } from '@/components/vault/PositionsList';
-import { StrategyCard } from '@/components/vault/StrategyCard';
+import { motion } from 'framer-motion';
+import { MetricCard } from '@/components/ui/MetricCard';
+import { PositionsTable } from '@/components/vault/PositionsTable';
+import { StrategyPanel } from '@/components/vault/StrategyPanel';
 import { DepositModal } from '@/components/vault/DepositModal';
-import { Card } from '@/components/ui/Card';
+import { useVaultData } from '@/lib/hooks/useVaultData';
+import { formatCurrency } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
-import { GridBackground } from '@/components/ui/GridBackground';
 
 export default function Home() {
   const { connected } = useWallet();
+  const { stats, isLoading } = useVaultData();
   const [showDeposit, setShowDeposit] = useState(false);
 
   if (!connected) {
     return (
-      <div className="relative flex items-center justify-center min-h-[calc(100vh-200px)]">
-        <GridBackground className="absolute inset-0 pointer-events-none" />
-        <Card className="max-w-md text-center relative z-10">
-          <h1 className="text-3xl font-bold mb-4">
-            CIPHER<span className="text-[#00D4FF]">YIELD</span>
-          </h1>
-          <p className="text-[#A0A0A0] mb-6 font-mono">
-            Privacy-preserving vault infrastructure on Solana
-          </p>
-          <p className="text-sm text-[#666666] mb-6 font-mono">
-            Connect your wallet to access the dashboard
-          </p>
-        </Card>
-      </div>
+      <div className="terminal-grid" />
     );
   }
 
   return (
     <>
-      <div className="space-y-6">
+      <div className="content-layer space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold font-mono">Dashboard</h1>
+          <div>
+            <h1 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-1">
+              Vault Dashboard
+            </h1>
+            <p className="text-xs font-mono text-[#666666]">
+              Real-time vault metrics and position tracking
+            </p>
+          </div>
           <div className="flex gap-3">
-            <Button variant="secondary" onClick={() => setShowDeposit(true)}>
+            <Button variant="primary" size="sm" onClick={() => setShowDeposit(true)}>
               Deposit
             </Button>
-            <Button variant="ghost">Withdraw</Button>
+            <Button variant="secondary" size="sm">
+              Withdraw
+            </Button>
           </div>
         </div>
 
-        <VaultOverview />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+        >
+          <MetricCard
+            label="Total Value Locked"
+            value={formatCurrency(stats.totalValue)}
+            change={stats.drawdown}
+            status={stats.drawdown >= 0 ? 'positive' : 'negative'}
+            size="lg"
+          />
+          <MetricCard
+            label="Annual Yield"
+            value={stats.apy.toFixed(2)}
+            suffix="%"
+            status="positive"
+            size="lg"
+          />
+          <MetricCard
+            label="Hedge Status"
+            value={stats.hedgeStatus.toUpperCase()}
+            status={stats.hedgeStatus === 'active' ? 'active' : 'neutral'}
+            size="md"
+          />
+          <MetricCard
+            label="Active Positions"
+            value={stats.positions}
+            status="neutral"
+            size="md"
+          />
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <PositionsList />
+            <PositionsTable />
           </div>
           <div>
-            <StrategyCard />
+            <StrategyPanel />
           </div>
         </div>
       </div>
