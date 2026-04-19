@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+:root {
+  --font-geist-mono: 'Geist Mono', monospace;
+}
+
+body {
+  font-family: var(--font-geist-mono);
+  background: #0A0A0B;
+  color: #FFFFFF;
+}
+
+.wallet-adapter-button {
+  font-family: var(--font-geist-mono) !important;
+}
