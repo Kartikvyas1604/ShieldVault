@@ -4,11 +4,17 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
 export function Header() {
   const pathname = usePathname();
   const { connected } = useWallet();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const navItems = [
     { label: 'Dashboard', href: '/' },
@@ -56,13 +62,13 @@ export function Header() {
           </div>
 
           <div className="flex items-center gap-4">
-            {connected && (
+            {mounted && connected && (
               <div className="flex items-center gap-2 px-3 py-1.5 bg-[#111111] border border-[#1F1F1F]">
                 <div className="w-2 h-2 rounded-full bg-[#00FF88] status-pulse" />
                 <span className="text-xs font-mono text-[#00FF88]">LIVE</span>
               </div>
             )}
-            <WalletMultiButton className="!bg-[#00D4FF] !text-[#0A0A0B] !font-mono !text-xs !uppercase !tracking-wider !rounded-none hover:!bg-[#00B8E6] !h-9 !px-4" />
+            {mounted && <WalletMultiButton className="!bg-[#00D4FF] !text-[#0A0A0B] !font-mono !text-xs !uppercase !tracking-wider !rounded-none hover:!bg-[#00B8E6] !h-9 !px-4" />}
           </div>
         </div>
       </div>
