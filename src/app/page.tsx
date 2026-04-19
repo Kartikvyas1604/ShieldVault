@@ -134,6 +134,39 @@ export default function Home() {
           />
         </motion.div>
 
+        <div className="grid grid-cols-1 gap-6">
+          <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
+            <div className="border-b border-[#1F1F1F] px-6 py-4">
+              <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
+                Market Overview
+              </h2>
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <MetricCard
+                  label="SOL/USDC"
+                  value="$152.34"
+                  change={3.42}
+                  status="positive"
+                  size="lg"
+                />
+                <MetricCard
+                  label="24h Volume"
+                  value="$2.84M"
+                  status="neutral"
+                  size="lg"
+                />
+                <MetricCard
+                  label="Market Status"
+                  value="ACTIVE"
+                  status="active"
+                  size="lg"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             <PositionsTable />
