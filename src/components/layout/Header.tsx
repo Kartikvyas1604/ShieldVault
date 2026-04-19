@@ -17,6 +17,7 @@ export function Header() {
     { label: 'Strategies', href: '/strategies' },
     { label: 'Proofs', href: '/proofs' },
     { label: 'Analytics', href: '/analytics' },
+    { label: 'Profile', href: '/profile' },
     { label: 'Settings', href: '/settings' },
   ];
 
