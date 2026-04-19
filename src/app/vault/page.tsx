@@ -22,7 +22,7 @@ export default function VaultPage() {
   return (
     <>
       <div className="content-layer space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-1">
               Vault Management
@@ -78,7 +78,7 @@ export default function VaultPage() {
                 </div>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <Button className="flex-1" onClick={() => setShowDeposit(true)}>
                   Deposit
                 </Button>
@@ -142,7 +142,7 @@ export default function VaultPage() {
           <h3 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-4">
             How The Vault Works
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs font-mono">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-xs font-mono">
             <div>
               <div className="text-[#00D4FF] mb-2 font-semibold">1. Deposit Assets</div>
               <div className="text-[#A0A0A0] leading-relaxed">

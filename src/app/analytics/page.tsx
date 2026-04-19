@@ -32,7 +32,7 @@ export default function AnalyticsPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {performanceData.map((item, index) => (
           <motion.div
             key={item.period}
@@ -154,7 +154,7 @@ export default function AnalyticsPage() {
           </h2>
         </div>
         <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <div className="bg-[#111111] border border-[#1F1F1F] p-4">
               <div className="text-xs font-mono text-[#666666] uppercase tracking-wider mb-3">
                 By Type

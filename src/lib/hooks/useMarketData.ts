@@ -43,10 +43,16 @@ export function useMarketData(symbol: string = 'SOL') {
           timestamp: pythData[0].price.publish_time * 1000,
         } : null;
 
-        // Fetch Jupiter price
+        // Fetch Jupiter price (using correct v6 API endpoint)
         const jupiterResponse = await fetch(
-          `https://price.jup.ag/v4/price?ids=So11111111111111111111111111111111111111112`
+          `https://api.jup.ag/price/v2?ids=So11111111111111111111111111111111111111112`,
+          { cache: 'no-store' }
         );
+
+        if (!jupiterResponse.ok) {
+          throw new Error(`Jupiter API error: ${jupiterResponse.status}`);
+        }
+
         const jupiterData = await jupiterResponse.json();
 
         const jupiterPrice = jupiterData.data?.So11111111111111111111111111111111111111112 ? {

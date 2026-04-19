@@ -24,7 +24,7 @@ export default function DashboardPage() {
   return (
     <>
       <div className="content-layer space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-1">
               Vault Dashboard
@@ -33,14 +33,14 @@ export default function DashboardPage() {
               Real-time vault metrics and position tracking
             </p>
           </div>
-          <div className="flex gap-3">
-            <Link href="/vault">
-              <Button variant="primary" size="sm">
+          <div className="flex gap-3 w-full sm:w-auto">
+            <Link href="/vault" className="flex-1 sm:flex-initial">
+              <Button variant="primary" size="sm" className="w-full">
                 Manage Vault
               </Button>
             </Link>
-            <Link href="/strategies">
-              <Button variant="secondary" size="sm">
+            <Link href="/strategies" className="flex-1 sm:flex-initial">
+              <Button variant="secondary" size="sm" className="w-full">
                 Configure Strategy
               </Button>
             </Link>
@@ -90,7 +90,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <Link href="/vault" className="block">
             <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-6 hover:border-[#00D4FF] transition-colors cursor-pointer">
               <div className="text-[#00D4FF] text-sm font-mono font-semibold mb-2">Vault Management</div>

@@ -13,7 +13,7 @@ export default function StrategiesPage() {
 
   return (
     <div className="content-layer space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-1">
             Strategy Layer
@@ -22,12 +22,12 @@ export default function StrategiesPage() {
             Encrypted deterministic rule engine in TEE
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full sm:w-auto">
           <div className="flex items-center gap-2 px-3 py-1.5 bg-[#111111] border border-[#1F1F1F]">
             <div className="w-2 h-2 rounded-full bg-[#666666]" />
             <span className="text-xs font-mono text-[#666666]">NO STRATEGIES</span>
           </div>
-          <Button>Create Strategy</Button>
+          <Button className="flex-1 sm:flex-initial">Create Strategy</Button>
         </div>
       </div>
 
@@ -126,7 +126,7 @@ export default function StrategiesPage() {
         <h3 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-4">
           How Strategy Execution Works
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-[#111111] border border-[#1F1F1F] p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">1. Encryption</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">

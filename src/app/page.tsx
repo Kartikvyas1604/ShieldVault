@@ -19,39 +19,39 @@ export default function LandingPage() {
 
       <div className="relative z-10">
         <header className="border-b border-[#1F1F1F] bg-[#0A0A0B]/80 backdrop-blur-sm">
-          <div className="max-w-[1400px] mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 border border-[#00D4FF] flex items-center justify-center">
-                <div className="w-4 h-4 bg-[#00D4FF]" />
+              <div className="w-6 h-6 sm:w-8 sm:h-8 border border-[#00D4FF] flex items-center justify-center">
+                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-[#00D4FF]" />
               </div>
-              <span className="text-lg font-mono font-bold text-white tracking-tight">
+              <span className="text-sm sm:text-lg font-mono font-bold text-white tracking-tight">
                 CIPHER<span className="text-[#00D4FF]">YIELD</span>
               </span>
             </div>
             {mounted && (
-              <WalletMultiButton className="!bg-[#00D4FF] !text-[#0A0A0B] !font-mono !text-xs !uppercase !tracking-wider !rounded-none hover:!bg-[#00B8E6] !h-10 !px-6" />
+              <WalletMultiButton className="!bg-[#00D4FF] !text-[#0A0A0B] !font-mono !text-xs !uppercase !tracking-wider !rounded-none hover:!bg-[#00B8E6] !h-9 sm:!h-10 !px-3 sm:!px-6" />
             )}
           </div>
         </header>
 
-        <main className="max-w-[1400px] mx-auto px-6 py-12">
+        <main className="max-w-[1400px] mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mb-8 sm:mb-12"
           >
-            <div className="w-16 h-16 border-2 border-[#00D4FF] mx-auto mb-6 flex items-center justify-center">
-              <div className="w-10 h-10 bg-[#00D4FF]" />
+            <div className="w-12 h-12 sm:w-16 sm:h-16 border-2 border-[#00D4FF] mx-auto mb-4 sm:mb-6 flex items-center justify-center">
+              <div className="w-7 h-7 sm:w-10 sm:h-10 bg-[#00D4FF]" />
             </div>
-            <h1 className="text-4xl font-mono font-bold text-white mb-3 tracking-tight">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-mono font-bold text-white mb-3 tracking-tight px-4">
               Privacy-Preserving Vault Infrastructure
             </h1>
-            <p className="text-base font-mono text-[#A0A0A0] mb-4 max-w-2xl mx-auto">
+            <p className="text-xs sm:text-sm md:text-base font-mono text-[#A0A0A0] mb-4 max-w-2xl mx-auto px-4 leading-relaxed">
               Execute sophisticated DeFi strategies with zero information leakage.
               Built on Trusted Execution Environments and cryptographic proofs.
             </p>
-            <div className="flex items-center justify-center gap-6 text-xs font-mono text-[#666666] mb-8">
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs font-mono text-[#666666] mb-6 sm:mb-8 px-4">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-[#00FF88]" />
                 <span>Non-custodial</span>
@@ -66,7 +66,7 @@ export default function LandingPage() {
               </div>
             </div>
             <Link href="/dashboard">
-              <button className="bg-[#00D4FF] text-[#0A0A0B] font-mono text-sm uppercase tracking-wider px-8 py-3 hover:bg-[#00B8E6] transition-colors">
+              <button className="bg-[#00D4FF] text-[#0A0A0B] font-mono text-xs sm:text-sm uppercase tracking-wider px-6 sm:px-8 py-2.5 sm:py-3 hover:bg-[#00B8E6] transition-colors w-full sm:w-auto max-w-xs">
                 Enter Application
               </button>
             </Link>
@@ -76,7 +76,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-6 hover:border-[#00D4FF] transition-colors">
               <div className="w-10 h-10 border border-[#00D4FF] flex items-center justify-center mb-4">

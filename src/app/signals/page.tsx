@@ -29,7 +29,7 @@ export default function SignalsPage() {
 
   return (
     <div className="content-layer space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-1">
             Signal Processing Layer
@@ -55,7 +55,7 @@ export default function SignalsPage() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="grid grid-cols-1 md:grid-cols-5 gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"
       >
         <MetricCard
           label="Composite Risk"
@@ -110,7 +110,7 @@ export default function SignalsPage() {
                     </div>
                     <span className="text-xs font-mono text-[#666666] uppercase">price</span>
                   </div>
-                  <div className="grid grid-cols-3 gap-4 text-xs font-mono">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs font-mono">
                     <div>
                       <div className="text-[#666666] mb-1">Value</div>
                       <div className="text-white font-semibold">${pythPrice.price.toFixed(2)}</div>
@@ -121,7 +121,7 @@ export default function SignalsPage() {
                         ±${pythPrice.confidence.toFixed(2)}
                       </div>
                     </div>
-                    <div>
+                    <div className="col-span-2 sm:col-span-1">
                       <div className="text-[#666666] mb-1">Age</div>
                       <div className="text-white">
                         {Math.floor((Date.now() - pythPrice.timestamp) / 1000)}s
@@ -142,7 +142,7 @@ export default function SignalsPage() {
                     </div>
                     <span className="text-xs font-mono text-[#666666] uppercase">price</span>
                   </div>
-                  <div className="grid grid-cols-3 gap-4 text-xs font-mono">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs font-mono">
                     <div>
                       <div className="text-[#666666] mb-1">Value</div>
                       <div className="text-white font-semibold">${jupiterPrice.price.toFixed(2)}</div>
@@ -151,7 +151,7 @@ export default function SignalsPage() {
                       <div className="text-[#666666] mb-1">Source</div>
                       <div className="text-[#00D4FF] font-semibold">Aggregated</div>
                     </div>
-                    <div>
+                    <div className="col-span-2 sm:col-span-1">
                       <div className="text-[#666666] mb-1">Age</div>
                       <div className="text-white">
                         {Math.floor((Date.now() - jupiterPrice.timestamp) / 1000)}s
@@ -236,7 +236,7 @@ export default function SignalsPage() {
         <h3 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-4">
           Signal Processing Pipeline
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-[#111111] border border-[#1F1F1F] p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">1. Ingestion</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
