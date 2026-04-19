@@ -4,8 +4,9 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { motion } from 'framer-motion';
 import { MetricCard } from '@/components/ui/MetricCard';
 import { useVaultData } from '@/lib/hooks/useVaultData';
-import { formatCurrency, formatPercent, formatAddress, formatTimestamp } from '@/lib/utils';
+import { formatCurrency, formatTimestamp } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
+import { useState } from 'react';
 
 interface Transaction {
   id: string;
@@ -15,6 +16,9 @@ interface Transaction {
   txHash: string;
 }
 
+export default function ProfilePage() {
+  const { connected, publicKey } = useWallet();
+  const { stats } = useVaultData();
   const [transactions] = useState<Transaction[]>([]);
 
   if (!connected) {
@@ -134,110 +138,6 @@ interface Transaction {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-          <div className="border-b border-[#1F1F1F] px-6 py-4">
-            <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
-              Portfolio Breakdown
-            </h2>
-          </div>
-          <div className="p-6 space-y-4">
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
-              <div className="text-xs font-mono text-[#666666] uppercase tracking-wider mb-3">
-                Asset Allocation
-              </div>
-              <div className="space-y-3 text-xs font-mono">
-                <div className="flex justify-between items-center">
-                  <span className="text-white">SOL</span>
-                  <div className="flex items-center gap-3">
-                    <div className="w-32 h-2 bg-[#1F1F1F]">
-                      <div className="h-full bg-[#00D4FF]" style={{ width: '45%' }} />
-                    </div>
-                    <span className="text-white w-12 text-right">45%</span>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white">USDC</span>
-                  <div className="flex items-center gap-3">
-                    <div className="w-32 h-2 bg-[#1F1F1F]">
-                      <div className="h-full bg-[#00FF88]" style={{ width: '55%' }} />
-                    </div>
-                    <span className="text-white w-12 text-right">55%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
-              <div className="text-xs font-mono text-[#666666] uppercase tracking-wider mb-3">
-                Position Types
-              </div>
-              <div className="space-y-3 text-xs font-mono">
-                <div className="flex justify-between">
-                  <span className="text-[#00FF88]">Long Positions</span>
-                  <span className="text-white">60%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[#FF3B3B]">Short Positions</span>
-                  <span className="text-white">40%</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-          <div className="border-b border-[#1F1F1F] px-6 py-4">
-            <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
-              Performance Stats
-            </h2>
-          </div>
-          <div className="p-6 space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <div className="text-xs font-mono text-[#666666] uppercase tracking-wider mb-2">
-                  Best Day
-                </div>
-                <div className="text-xl font-mono text-[#00FF88] font-bold">
-                  +8.4%
-                </div>
-              </div>
-              <div>
-                <div className="text-xs font-mono text-[#666666] uppercase tracking-wider mb-2">
-                  Worst Day
-                </div>
-                <div className="text-xl font-mono text-[#FF3B3B] font-bold">
-                  -3.2%
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4 space-y-3 text-xs font-mono">
-              <div className="flex justify-between">
-                <span className="text-[#666666]">Win Rate</span>
-                <span className="text-[#00FF88]">67.3%</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[#666666]">Avg Win</span>
-                <span className="text-[#00FF88]">+4.2%</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[#666666]">Avg Loss</span>
-                <span className="text-[#FF3B3B]">-2.1%</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[#666666]">Sharpe Ratio</span>
-                <span className="text-white">2.34</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[#666666]">Max Drawdown</span>
-                <span className="text-[#FF3B3B]">-8.4%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
         <div className="border-b border-[#1F1F1F] px-6 py-4">
           <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
@@ -266,29 +166,29 @@ interface Transaction {
                 </tr>
               ) : (
                 transactions.map((tx, index) => (
-                <motion.tr
-                  key={tx.id}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="border-b border-[#1F1F1F] hover:bg-[#111111] transition-colors"
-                >
-                  <td className="px-6 py-4">
-                    <span className={`text-xs font-mono font-semibold ${getTransactionColor(tx.type)}`}>
-                      {getTransactionLabel(tx.type)}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm font-mono text-white text-right">
-                    {tx.amount > 0 ? formatCurrency(tx.amount) : '—'}
-                  </td>
-                  <td className="px-6 py-4 text-xs font-mono text-[#00D4FF]">
-                    {tx.txHash}
-                  </td>
-                  <td className="px-6 py-4 text-xs font-mono text-[#666666] text-right">
-                    {formatTimestamp(tx.timestamp)}
-                  </td>
-                </motion.tr>
-              ))
+                  <motion.tr
+                    key={tx.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    className="border-b border-[#1F1F1F] hover:bg-[#111111] transition-colors"
+                  >
+                    <td className="px-6 py-4">
+                      <span className={`text-xs font-mono font-semibold ${getTransactionColor(tx.type)}`}>
+                        {getTransactionLabel(tx.type)}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-sm font-mono text-white text-right">
+                      {tx.amount > 0 ? formatCurrency(tx.amount) : '—'}
+                    </td>
+                    <td className="px-6 py-4 text-xs font-mono text-[#00D4FF]">
+                      {tx.txHash}
+                    </td>
+                    <td className="px-6 py-4 text-xs font-mono text-[#666666] text-right">
+                      {formatTimestamp(tx.timestamp)}
+                    </td>
+                  </motion.tr>
+                ))
               )}
             </tbody>
           </table>
