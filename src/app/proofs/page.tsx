@@ -22,7 +22,7 @@ export default function ProofsPage() {
             Cryptographic proof bundles for verifiable execution
           </p>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-[#111111] border border-[#1F1F1F]">
+        <div className="flex items-center gap-2 px-3 py-1.5 glass">
           <div className="w-2 h-2 rounded-full bg-[#666666]" />
           <span className="text-xs font-mono text-[#666666]">NO PROOFS</span>
         </div>
@@ -39,8 +39,8 @@ export default function ProofsPage() {
         <MetricCard label="Arweave Stored" value="0" status="neutral" size="lg" />
       </motion.div>
 
-      <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-        <div className="border-b border-[#1F1F1F] px-6 py-4">
+      <div className="glass-card">
+        <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
           <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
             Execution Proofs
           </h2>
@@ -54,14 +54,14 @@ export default function ProofsPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-          <div className="border-b border-[#1F1F1F] px-6 py-4">
+        <div className="glass-card">
+          <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
             <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
               Verification Process
             </h2>
           </div>
           <div className="p-6 space-y-4">
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+            <div className="glass p-4">
               <div className="text-xs font-mono text-white font-semibold mb-3">
                 Privacy Model
               </div>
@@ -81,7 +81,7 @@ export default function ProofsPage() {
               </div>
             </div>
 
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+            <div className="glass p-4">
               <div className="text-xs font-mono text-white font-semibold mb-3">
                 Storage Architecture
               </div>
@@ -103,14 +103,14 @@ export default function ProofsPage() {
           </div>
         </div>
 
-        <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-          <div className="border-b border-[#1F1F1F] px-6 py-4">
+        <div className="glass-card">
+          <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
             <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
               Proof Components
             </h2>
           </div>
           <div className="p-6 space-y-3">
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+            <div className="glass p-4">
               <div className="text-xs font-mono text-[#00D4FF] font-semibold mb-2">
                 Price Data Hash
               </div>
@@ -118,7 +118,7 @@ export default function ProofsPage() {
                 Hashed oracle feeds with timestamps
               </div>
             </div>
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+            <div className="glass p-4">
               <div className="text-xs font-mono text-[#00D4FF] font-semibold mb-2">
                 Signal Data Hash
               </div>
@@ -126,7 +126,7 @@ export default function ProofsPage() {
                 Hashed prediction market signals
               </div>
             </div>
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+            <div className="glass p-4">
               <div className="text-xs font-mono text-[#00D4FF] font-semibold mb-2">
                 Strategy Commitment
               </div>
@@ -134,7 +134,7 @@ export default function ProofsPage() {
                 Hash commitment (no logic exposed)
               </div>
             </div>
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+            <div className="glass p-4">
               <div className="text-xs font-mono text-[#00D4FF] font-semibold mb-2">
                 Operator Signatures
               </div>
@@ -146,36 +146,38 @@ export default function ProofsPage() {
         </div>
       </div>
 
-      <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-6">
+      <div className="glass-card p-6">
         <h3 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-4">
           Proof Bundle Components
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
-            <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">Price Data</div>
+            <div className="glass p-4">
+              <div className="text-xs font-mono text-[#00D4FF] font-semibold mb-2">
+                Price Data Hash
+              </div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               Hashed oracle feeds with timestamps
             </div>
           </div>
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+          <div className="glass p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">Signal Data</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               Hashed prediction market signals
             </div>
           </div>
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+          <div className="glass p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">Strategy</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               Commitment hash (no logic exposed)
             </div>
           </div>
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+          <div className="glass p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">Execution</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               Route details and transaction hash
             </div>
           </div>
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+          <div className="glass p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">Signatures</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               Operator validation (2-of-3 threshold)

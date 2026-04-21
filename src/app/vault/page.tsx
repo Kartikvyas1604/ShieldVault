@@ -34,8 +34,8 @@ export default function VaultPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-            <div className="border-b border-[#1F1F1F] px-6 py-4">
+          <div className="glass-card">
+            <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
               <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
                 Your Position
               </h2>
@@ -57,7 +57,7 @@ export default function VaultPage() {
                 />
               </div>
 
-              <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+              <div className="glass p-4">
                 <div className="grid grid-cols-2 gap-4 text-xs font-mono">
                   <div>
                     <div className="text-[#666666] uppercase tracking-wider mb-1">Deposited</div>
@@ -89,8 +89,8 @@ export default function VaultPage() {
             </div>
           </div>
 
-          <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-            <div className="border-b border-[#1F1F1F] px-6 py-4">
+          <div className="glass-card">
+            <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
               <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
                 Vault Overview
               </h2>
@@ -112,7 +112,7 @@ export default function VaultPage() {
                 />
               </div>
 
-              <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+              <div className="glass p-4">
                 <div className="space-y-3 text-xs font-mono">
                   <div className="flex justify-between">
                     <span className="text-[#666666]">Share Price</span>
@@ -138,7 +138,7 @@ export default function VaultPage() {
           </div>
         </div>
 
-        <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-6">
+        <div className="glass-card p-6">
           <h3 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-4">
             How The Vault Works
           </h3>

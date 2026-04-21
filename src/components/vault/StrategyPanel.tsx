@@ -10,7 +10,7 @@ export function StrategyPanel() {
 
   if (isLoading) {
     return (
-      <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-6">
+      <div className="glass-card p-6">
         <div className="h-[300px] flex items-center justify-center">
           <div className="text-[#666666] font-mono text-sm">Loading...</div>
         </div>
@@ -22,8 +22,8 @@ export function StrategyPanel() {
 
   if (!activeStrategy) {
     return (
-      <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-6">
-        <div className="border-b border-[#1F1F1F] pb-4 mb-4">
+      <div className="glass-card p-6">
+        <div className="border-b border-[rgba(255,255,255,0.1)] pb-4 mb-4">
           <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
             Strategy Engine
           </h2>
@@ -37,8 +37,8 @@ export function StrategyPanel() {
   }
 
   return (
-    <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-      <div className="border-b border-[#1F1F1F] px-6 py-4 flex items-center justify-between">
+    <div className="glass-card rounded-sm">
+      <div className="border-b border-[rgba(255,255,255,0.05)] px-6 py-4 flex items-center justify-between">
         <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
           Strategy Engine
         </h2>
@@ -81,7 +81,7 @@ export function StrategyPanel() {
           </div>
         </div>
 
-        <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+        <div className="glass p-4">
           <div className="text-xs font-mono text-[#666666] uppercase tracking-wider mb-2">
             Rule Hash (On-Chain)
           </div>
@@ -99,7 +99,7 @@ export function StrategyPanel() {
           </div>
         </div>
 
-        <div className="flex gap-3 pt-2 border-t border-[#1F1F1F]">
+        <div className="flex gap-3 pt-2 border-t border-[rgba(255,255,255,0.1)]">
           <Button variant="secondary" size="sm" className="flex-1">
             Modify
           </Button>

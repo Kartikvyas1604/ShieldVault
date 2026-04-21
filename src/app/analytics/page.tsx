@@ -52,8 +52,8 @@ export default function AnalyticsPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-          <div className="border-b border-[#1F1F1F] px-6 py-4">
+        <div className="glass-card">
+          <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
             <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
               Execution Metrics
             </h2>
@@ -78,7 +78,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
 
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4 space-y-3 text-xs font-mono">
+            <div className="glass p-4 space-y-3 text-xs font-mono">
               <div className="flex justify-between">
                 <span className="text-[#666666]">Total Executions</span>
                 <span className="text-white">247</span>
@@ -99,8 +99,8 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-          <div className="border-b border-[#1F1F1F] px-6 py-4">
+        <div className="glass-card">
+          <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
             <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
               Risk Metrics
             </h2>
@@ -111,7 +111,7 @@ export default function AnalyticsPage() {
                 <div className="text-xs font-mono text-[#666666] uppercase tracking-wider mb-2">
                   Max Drawdown
                 </div>
-                <div className="text-2xl font-mono text-[#FF3B3B] font-bold">
+                <div className="text-2xl font-mono text-[#00FF88] font-bold">
                   -8.4%
                 </div>
               </div>
@@ -125,7 +125,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
 
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4 space-y-3 text-xs font-mono">
+            <div className="glass p-4 space-y-3 text-xs font-mono">
               <div className="flex justify-between">
                 <span className="text-[#666666]">Volatility (30D)</span>
                 <span className="text-white">12.4%</span>
@@ -147,15 +147,15 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-        <div className="border-b border-[#1F1F1F] px-6 py-4">
+      <div className="glass-card">
+        <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
           <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
             Position Breakdown
           </h2>
         </div>
         <div className="p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+            <div className="glass p-4">
               <div className="text-xs font-mono text-[#666666] uppercase tracking-wider mb-3">
                 By Type
               </div>
@@ -171,7 +171,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
 
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+            <div className="glass p-4">
               <div className="text-xs font-mono text-[#666666] uppercase tracking-wider mb-3">
                 By Asset
               </div>
@@ -187,7 +187,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
 
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+            <div className="glass p-4">
               <div className="text-xs font-mono text-[#666666] uppercase tracking-wider mb-3">
                 By Protocol
               </div>

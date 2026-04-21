@@ -38,7 +38,7 @@ export default function SignalsPage() {
             Real-time market data normalization and risk scoring
           </p>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-[#111111] border border-[#1F1F1F]">
+        <div className="flex items-center gap-2 px-3 py-1.5 glass">
           <div className={`w-2 h-2 rounded-full ${marketLoading || riskLoading ? 'bg-[#00D4FF]' : 'bg-[#00FF88]'} status-pulse`} />
           <span className={`text-xs font-mono ${marketLoading || riskLoading ? 'text-[#00D4FF]' : 'text-[#00FF88]'}`}>
             {marketLoading || riskLoading ? 'LOADING' : 'PROCESSING'}
@@ -91,8 +91,8 @@ export default function SignalsPage() {
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-          <div className="border-b border-[#1F1F1F] px-6 py-4">
+        <div className="glass-card">
+          <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
             <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
               Active Signals
             </h2>
@@ -100,7 +100,7 @@ export default function SignalsPage() {
           <div className="p-6">
             <div className="space-y-3">
               {pythPrice && (
-                <div className="bg-[#111111] border border-[#1F1F1F] p-4 hover:border-[#00D4FF] transition-colors">
+                <div className="glass glass-hover p-4">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-3">
                       <div className="w-2 h-2 rounded-full bg-[#00FF88]" />
@@ -132,7 +132,7 @@ export default function SignalsPage() {
               )}
 
               {jupiterPrice && (
-                <div className="bg-[#111111] border border-[#1F1F1F] p-4 hover:border-[#00D4FF] transition-colors">
+                <div className="glass glass-hover p-4">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-3">
                       <div className="w-2 h-2 rounded-full bg-[#00FF88]" />
@@ -170,14 +170,14 @@ export default function SignalsPage() {
           </div>
         </div>
 
-        <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-          <div className="border-b border-[#1F1F1F] px-6 py-4">
+        <div className="glass-card">
+          <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
             <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
               Data Sources
             </h2>
           </div>
           <div className="p-6 space-y-4">
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+            <div className="glass p-4">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-mono text-white font-semibold">Market Data</span>
                 <div className="flex items-center gap-2">
@@ -199,7 +199,7 @@ export default function SignalsPage() {
               </div>
             </div>
 
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+            <div className="glass p-4">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-mono text-white font-semibold">Prediction Markets</span>
                 <div className="flex items-center gap-2">
@@ -215,7 +215,7 @@ export default function SignalsPage() {
               </div>
             </div>
 
-            <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+            <div className="glass p-4">
               <div className="text-xs font-mono text-white font-semibold mb-3">Signal Filters</div>
               <div className="space-y-2 text-xs font-mono">
                 <div className="flex justify-between">
@@ -232,30 +232,30 @@ export default function SignalsPage() {
         </div>
       </div>
 
-      <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-6">
+      <div className="glass-card p-6">
         <h3 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-4">
           Signal Processing Pipeline
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+          <div className="glass p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">1. Ingestion</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               Real-time data from Pyth and Jupiter with timestamp verification
             </div>
           </div>
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+          <div className="glass p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">2. Normalization</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               Unified schema conversion with confidence scoring
             </div>
           </div>
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+          <div className="glass p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">3. Filtering</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               Discard low-quality signals based on confidence and age
             </div>
           </div>
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+          <div className="glass p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">4. Risk Scoring</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               Composite risk calculation from price and volatility metrics

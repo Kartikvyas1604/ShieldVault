@@ -23,7 +23,7 @@ export default function StrategiesPage() {
           </p>
         </div>
         <div className="flex items-center gap-3 w-full sm:w-auto">
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-[#111111] border border-[#1F1F1F]">
+          <div className="flex items-center gap-2 px-3 py-1.5 glass">
             <div className="w-2 h-2 rounded-full bg-[#666666]" />
             <span className="text-xs font-mono text-[#666666]">NO STRATEGIES</span>
           </div>
@@ -31,7 +31,7 @@ export default function StrategiesPage() {
         </div>
       </div>
 
-      <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-12 text-center">
+      <div className="glass-card p-12 text-center">
         <div className="text-xs font-mono text-[#666666] mb-4">
           No strategies configured
         </div>
@@ -40,7 +40,7 @@ export default function StrategiesPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-6">
+          <div className="glass-card p-6">
             <h3 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-4">
               Strategy Configuration
             </h3>
@@ -48,7 +48,7 @@ export default function StrategiesPage() {
               Define encrypted strategies that execute automatically in TEE when conditions are met.
             </div>
             <div className="space-y-3">
-              <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+              <div className="glass p-4">
                 <div className="text-xs font-mono text-[#00D4FF] font-semibold mb-2">
                   Rule-Based Conditions
                 </div>
@@ -56,7 +56,7 @@ export default function StrategiesPage() {
                   Drawdown thresholds, P&L limits, exposure caps
                 </div>
               </div>
-              <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+              <div className="glass p-4">
                 <div className="text-xs font-mono text-[#00D4FF] font-semibold mb-2">
                   Signal-Based Triggers
                 </div>
@@ -64,7 +64,7 @@ export default function StrategiesPage() {
                   Risk score thresholds, prediction probabilities
                 </div>
               </div>
-              <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+              <div className="glass p-4">
                 <div className="text-xs font-mono text-[#00D4FF] font-semibold mb-2">
                   Execution Actions
                 </div>
@@ -77,14 +77,14 @@ export default function StrategiesPage() {
         </div>
 
         <div className="space-y-6">
-          <div className="bg-[#0A0A0B] border border-[#1F1F1F]">
-            <div className="border-b border-[#1F1F1F] px-6 py-4">
+          <div className="glass-card">
+            <div className="border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
               <h2 className="text-sm font-mono font-semibold text-white uppercase tracking-wider">
                 TEE Status
               </h2>
             </div>
             <div className="p-6 space-y-4">
-              <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+              <div className="glass p-4">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-mono text-white font-semibold">Environment</span>
                   <div className="flex items-center gap-2">
@@ -94,7 +94,7 @@ export default function StrategiesPage() {
                 </div>
               </div>
 
-              <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+              <div className="glass p-4">
                 <div className="text-xs font-mono text-white font-semibold mb-3">
                   Privacy Guarantees
                 </div>
@@ -122,30 +122,30 @@ export default function StrategiesPage() {
         </div>
       </div>
 
-      <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-6">
+      <div className="glass-card p-6">
         <h3 className="text-sm font-mono font-semibold text-white uppercase tracking-wider mb-4">
           How Strategy Execution Works
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+          <div className="glass p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">1. Encryption</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               Strategy encrypted client-side before upload to TEE
             </div>
           </div>
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+          <div className="glass p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">2. Evaluation</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               TEE continuously evaluates signals against encrypted rules
             </div>
           </div>
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+          <div className="glass p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">3. Intent</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               When conditions met, TEE generates signed execution intent
             </div>
           </div>
-          <div className="bg-[#111111] border border-[#1F1F1F] p-4">
+          <div className="glass p-4">
             <div className="text-[#00D4FF] text-xs font-mono font-semibold mb-2">4. Execution</div>
             <div className="text-xs font-mono text-[#A0A0A0] leading-relaxed">
               Intent validated by operators and executed on-chain

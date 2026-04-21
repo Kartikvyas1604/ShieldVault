@@ -37,7 +37,7 @@ export function MetricCard({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-[#0A0A0B] border border-[#1F1F1F] p-4 hover:border-[#2C2C2C] transition-colors"
+      className="glass glass-hover p-4 rounded-sm"
     >
       <div className="text-[#666666] text-xs font-mono uppercase tracking-wider mb-3">
         {label}

@@ -32,7 +32,7 @@ export function Header() {
   }
 
   return (
-    <header className="border-b border-[#1F1F1F] bg-[#0A0A0B] sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
+    <header className="border-b border-[rgba(255,255,255,0.03)] glass sticky top-0 z-50">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 py-3">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-4 sm:gap-8 min-w-0 flex-1">
@@ -69,7 +69,7 @@ export function Header() {
 
           <div className="flex items-center gap-2 flex-shrink-0">
             {mounted && connected && (
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-[#111111] border border-[#1F1F1F]">
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 glass rounded-sm">
                 <div className="w-2 h-2 rounded-full bg-[#00FF88] status-pulse" />
                 <span className="text-xs font-mono text-[#00FF88]">LIVE</span>
               </div>

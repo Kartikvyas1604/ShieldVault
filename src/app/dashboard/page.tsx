@@ -92,7 +92,7 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <Link href="/vault" className="block">
-            <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-6 hover:border-[#00D4FF] transition-colors cursor-pointer">
+            <div className="glass-card glass-hover p-6 cursor-pointer">
               <div className="text-[#00D4FF] text-sm font-mono font-semibold mb-2">Vault Management</div>
               <div className="text-xs font-mono text-[#A0A0A0]">
                 Deposit, withdraw, and manage your vault shares
@@ -100,7 +100,7 @@ export default function DashboardPage() {
             </div>
           </Link>
           <Link href="/analytics" className="block">
-            <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-6 hover:border-[#00D4FF] transition-colors cursor-pointer">
+            <div className="glass-card glass-hover p-6 cursor-pointer">
               <div className="text-[#00D4FF] text-sm font-mono font-semibold mb-2">Analytics</div>
               <div className="text-xs font-mono text-[#A0A0A0]">
                 Performance metrics and execution analytics
@@ -108,7 +108,7 @@ export default function DashboardPage() {
             </div>
           </Link>
           <Link href="/proofs" className="block">
-            <div className="bg-[#0A0A0B] border border-[#1F1F1F] p-6 hover:border-[#00D4FF] transition-colors cursor-pointer">
+            <div className="glass-card glass-hover p-6 cursor-pointer">
               <div className="text-[#00D4FF] text-sm font-mono font-semibold mb-2">Proof Verification</div>
               <div className="text-xs font-mono text-[#A0A0A0]">
                 Cryptographic proofs for all executions
