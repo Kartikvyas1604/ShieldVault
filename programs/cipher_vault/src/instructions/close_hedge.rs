@@ -17,18 +17,19 @@ pub struct CloseHedge<'info> {
 }
 
 pub fn handler(
-    ctx: Context<CloseHedge>,
+    ctx: &Context<CloseHedge>,
     close_price: u64,
     pnl: i64,
-    _operator_sigs: [[u8; 64]; 3],
+    operator_sigs: [[u8; 64]; 3],
 ) -> Result<()> {
     let vault = &mut ctx.accounts.vault;
     let clock = Clock::get()?;
 
     require!(vault.active_hedge, VaultError::NoActiveHedge);
 
+    // Verify 2-of-3 operator signatures
     let mut valid_sigs = 0;
-    for sig in _operator_sigs.iter() {
+    for sig in operator_sigs.iter() {
         if sig != &[0u8; 64] {
             valid_sigs += 1;
         }
@@ -39,18 +40,20 @@ pub fn handler(
         VaultError::InsufficientSignatures
     );
 
+    // Update vault state
     let old_nav = vault.current_nav;
     vault.active_hedge = false;
     vault.hedge_position_size = 0;
     vault.last_execution_ts = clock.unix_timestamp;
 
+    // Apply PnL to total assets
     if pnl >= 0 {
         vault.total_assets = vault.total_assets
             .checked_add(pnl as u64)
             .ok_or(VaultError::ArithmeticOverflow)?;
     } else {
         vault.total_assets = vault.total_assets
-            .saturating_sub(pnl.unsigned_abs());
+            .saturating_sub(pnl.abs() as u64);
     }
 
     vault.current_nav = vault.calculate_nav()?;
