@@ -4,7 +4,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { motion } from 'framer-motion';
 import { PositionsTable } from '@/components/vault/PositionsTable';
 import { useVaultData } from '@/lib/hooks/useVaultData';
-import { MetricCard  } from \"@shieldvault/ui\";
+import { MetricCard  } from "@shieldvault/ui";
 import { formatCurrency, formatPercent } from '@/lib/utils';
 
 export default function PositionsPage() {

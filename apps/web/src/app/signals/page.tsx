@@ -2,7 +2,7 @@
 
 import { useWallet } from '@solana/wallet-adapter-react';
 import { motion } from 'framer-motion';
-import { MetricCard  } from \"@shieldvault/ui\";
+import { MetricCard  } from "@shieldvault/ui";
 import { useMarketData } from '@/lib/hooks/useMarketData';
 import { useRiskScore } from '@/lib/hooks/useRiskScore';
 

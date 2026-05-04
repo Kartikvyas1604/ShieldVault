@@ -2,7 +2,7 @@
 
 import { useWallet } from '@solana/wallet-adapter-react';
 import { motion } from 'framer-motion';
-import { MetricCard  } from \"@shieldvault/ui\";
+import { MetricCard  } from "@shieldvault/ui";
 
 export default function ProofsPage() {
   const { connected } = useWallet();

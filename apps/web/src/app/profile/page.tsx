@@ -2,10 +2,10 @@
 
 import { useWallet } from '@solana/wallet-adapter-react';
 import { motion } from 'framer-motion';
-import { MetricCard  } from \"@shieldvault/ui\";
+import { MetricCard  } from "@shieldvault/ui";
 import { useVaultData } from '@/lib/hooks/useVaultData';
 import { formatCurrency, formatTimestamp } from '@/lib/utils';
-import { Button  } from \"@shieldvault/ui\";
+import { Button  } from "@shieldvault/ui";
 import { useState } from 'react';
 
 interface Transaction {

@@ -2,7 +2,7 @@
 
 import { useWallet } from '@solana/wallet-adapter-react';
 import { motion } from 'framer-motion';
-import { Button  } from \"@shieldvault/ui\";
+import { Button  } from "@shieldvault/ui";
 
 export default function StrategiesPage() {
   const { connected } = useWallet();

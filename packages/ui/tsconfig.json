@@ -1,5 +1,5 @@
 {
-  "extends": "@shieldvault/typescript-config/react-library.json",
+  "extends": "../../packages/config-typescript/react-library.json",
   "compilerOptions": {
     "outDir": "dist"
   },

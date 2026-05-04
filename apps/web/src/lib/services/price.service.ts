@@ -92,7 +92,10 @@ export class PriceService {
   }
 
   async publishPrice(priceData: PriceData): Promise<void> {
-    await this.redis.publish(this.PRICE_CHANNEL, JSON.stringify(priceData));
+    await this.redis.publish(
+      this.PRICE_CHANNEL,
+      JSON.stringify(priceData, (_, v) => (typeof v === 'bigint' ? v.toString() : v))
+    );
   }
 
   async storePriceSnapshot(priceData: PriceData): Promise<void> {

@@ -1,5 +1,5 @@
 {
-  "extends": "@shieldvault/typescript-config/nextjs.json",
+  "extends": "../../packages/config-typescript/nextjs.json",
   "compilerOptions": {
     "target": "ES2017",
     "moduleResolution": "bundler",

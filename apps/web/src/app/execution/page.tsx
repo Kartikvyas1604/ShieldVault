@@ -2,8 +2,8 @@
 
 import { useWallet } from '@solana/wallet-adapter-react';
 import { motion } from 'framer-motion';
-import { MetricCard  } from \"@shieldvault/ui\";
-import { Button  } from \"@shieldvault/ui\";
+import { MetricCard  } from "@shieldvault/ui";
+import { Button  } from "@shieldvault/ui";
 
 export default function ExecutionPage() {
   const { connected } = useWallet();
