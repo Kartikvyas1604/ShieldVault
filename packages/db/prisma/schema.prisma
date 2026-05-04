@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Vault {
+  id              String           @id @default(cuid())
+  address         String           @unique
+  totalAssets     BigInt           @default(0)
+  totalShares     BigInt           @default(0)
+  peakNav         BigInt           @default(1000000)
+  currentNav      BigInt           @default(1000000)
+  activeHedge     Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  userPositions   UserPosition[]
+  hedgePositions  HedgePosition[]
+  executionLogs   ExecutionLog[]
+
+  @@index([address])
+}
+
+model UserPosition {
+  id                String   @id @default(cuid())
+  walletAddress     String
+  vaultId           String
+  shares            BigInt   @default(0)
+  depositedAmount   BigInt   @default(0)
+  strategyRuleHash  String
+  createdAt         DateTime @default(now())
+
+  vault             Vault    @relation(fields: [vaultId], references: [id], onDelete: Cascade)
+
+  @@unique([walletAddress, vaultId])
+  @@index([walletAddress])
+  @@index([vaultId])
+}
+
+model HedgePosition {
+  id              String    @id @default(cuid())
+  vaultId         String
+  size            BigInt
+  entryPrice      BigInt
+  status          HedgeStatus @default(OPEN)
+  openedAt        DateTime  @default(now())
+  closedAt        DateTime?
+  pnl             BigInt?
+  driftPositionId String?
+
+  vault           Vault     @relation(fields: [vaultId], references: [id], onDelete: Cascade)
+
+  @@index([vaultId])
+  @@index([status])
+}
+
+enum HedgeStatus {
+  OPEN
+  CLOSED
+  LIQUIDATED
+}
+
+model ExecutionLog {
+  id                String        @id @default(cuid())
+  vaultId           String
+  type              ExecutionType
+  txSignature       String?
+  priceAtExecution  BigInt?
+  triggerType       String?
+  proofHash         String?
+  status            ExecutionStatus @default(PENDING)
+  createdAt         DateTime      @default(now())
+
+  vault             Vault         @relation(fields: [vaultId], references: [id], onDelete: Cascade)
+  proofBundle       ProofBundle?
+  operatorValidations OperatorValidation[]
+
+  @@index([vaultId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+enum ExecutionType {
+  HEDGE_OPEN
+  HEDGE_CLOSE
+  YIELD
+  REBALANCE
+}
+
+enum ExecutionStatus {
+  PENDING
+  EVALUATED
+  EXECUTING
+  COMPLETED
+  FAILED
+}
+
+model ProofBundle {
+  id              String       @id @default(cuid())
+  executionLogId  String       @unique
+  priceData       Json
+  timestamp       DateTime
+  executionRoute  Json
+  ruleHash        String
+  operatorSigs    Json
+  arweaveTxId     String?
+  createdAt       DateTime     @default(now())
+
+  executionLog    ExecutionLog @relation(fields: [executionLogId], references: [id], onDelete: Cascade)
+
+  @@index([arweaveTxId])
+}
+
+model OperatorValidation {
+  id              String       @id @default(cuid())
+  executionLogId  String
+  operatorIndex   Int
+  signature       String
+  validatedAt     DateTime     @default(now())
+
+  executionLog    ExecutionLog @relation(fields: [executionLogId], references: [id], onDelete: Cascade)
+
+  @@unique([executionLogId, operatorIndex])
+  @@index([executionLogId])
+}
+
+model PriceSnapshot {
+  id                String   @id @default(cuid())
+  asset             String
+  jupiterPrice      BigInt?
+  pythPrice         BigInt?
+  switchboardPrice  BigInt?
+  consensusPrice    BigInt
+  createdAt         DateTime @default(now())
+
+  @@index([asset, createdAt])
+  @@index([createdAt])
+}

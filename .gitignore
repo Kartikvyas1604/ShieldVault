@@ -89,3 +89,6 @@ Cargo.lock
 *.tmp
 *.temp
 .cache/
+
+# Turborepo
+.turbo/
