@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { useVaultData } from '@/lib/hooks/useVaultData';
 import { formatCurrency, formatPercent, formatTimestamp } from '@/lib/utils';
-import { Card } from '../ui/Card';
+import { Card } from '@shieldvault/ui';
 
 export function PositionsList() {
   const { positions, isLoading } = useVaultData();

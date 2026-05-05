@@ -7,136 +7,101 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Vault {
-  id              String           @id @default(cuid())
-  address         String           @unique
-  totalAssets     BigInt           @default(0)
-  totalShares     BigInt           @default(0)
-  peakNav         BigInt           @default(1000000)
-  currentNav      BigInt           @default(1000000)
-  activeHedge     Boolean          @default(false)
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+model User {
+  wallet_address String   @id
+  created_at     DateTime @default(now())
+  last_seen      DateTime @updatedAt
 
-  userPositions   UserPosition[]
-  hedgePositions  HedgePosition[]
-  executionLogs   ExecutionLog[]
-
-  @@index([address])
+  vaultPositions   VaultPosition[]
+  protectionRules  ProtectionRule[]
+  hedgePositions   HedgePosition[]
 }
 
-model UserPosition {
-  id                String   @id @default(cuid())
-  walletAddress     String
-  vaultId           String
-  shares            BigInt   @default(0)
-  depositedAmount   BigInt   @default(0)
-  strategyRuleHash  String
-  createdAt         DateTime @default(now())
+model VaultPosition {
+  id             String   @id @default(cuid())
+  wallet_address String
+  sol_amount     BigInt
+  shares         BigInt
+  deposited_at   DateTime @default(now())
+  status         String   // ACTIVE/WITHDRAWN
 
-  vault             Vault    @relation(fields: [vaultId], references: [id], onDelete: Cascade)
+  user           User     @relation(fields: [wallet_address], references: [wallet_address])
+}
 
-  @@unique([walletAddress, vaultId])
-  @@index([walletAddress])
-  @@index([vaultId])
+model ProtectionRule {
+  id               String   @id @default(cuid())
+  wallet_address   String
+  encrypted_rule   String
+  rule_hash        String   @unique
+  trigger_percent  Float
+  hedge_percent    Float
+  timeout_minutes  Int
+  status           String   // ACTIVE/INACTIVE/TRIGGERED
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  user             User            @relation(fields: [wallet_address], references: [wallet_address])
+  hedgePositions   HedgePosition[]
 }
 
 model HedgePosition {
-  id              String    @id @default(cuid())
-  vaultId         String
-  size            BigInt
-  entryPrice      BigInt
-  status          HedgeStatus @default(OPEN)
-  openedAt        DateTime  @default(now())
-  closedAt        DateTime?
-  pnl             BigInt?
-  driftPositionId String?
+  id                 String   @id @default(cuid())
+  rule_id            String
+  wallet_address     String
+  drift_position_id  String?
+  entry_price        Float
+  short_size_sol     Float
+  entry_timestamp    DateTime @default(now())
+  close_timestamp    DateTime?
+  close_reason       String?  // RECOVERY/TIMEOUT/WITHDRAWAL/MANUAL
+  funding_paid_total Float    @default(0)
+  realized_pnl       Float?
+  status             String   // OPEN/CLOSED/FAILED
 
-  vault           Vault     @relation(fields: [vaultId], references: [id], onDelete: Cascade)
-
-  @@index([vaultId])
-  @@index([status])
+  rule               ProtectionRule      @relation(fields: [rule_id], references: [id])
+  user               User                @relation(fields: [wallet_address], references: [wallet_address])
+  operatorApprovals  OperatorApproval[]
+  proofBundles       ProofBundle[]
 }
 
-enum HedgeStatus {
-  OPEN
-  CLOSED
-  LIQUIDATED
-}
+model OperatorApproval {
+  id                 String   @id @default(cuid())
+  hedge_position_id  String
+  operator_index     Int
+  signature          String
+  approved_at        DateTime @default(now())
+  price_at_approval  Float
 
-model ExecutionLog {
-  id                String        @id @default(cuid())
-  vaultId           String
-  type              ExecutionType
-  txSignature       String?
-  priceAtExecution  BigInt?
-  triggerType       String?
-  proofHash         String?
-  status            ExecutionStatus @default(PENDING)
-  createdAt         DateTime      @default(now())
-
-  vault             Vault         @relation(fields: [vaultId], references: [id], onDelete: Cascade)
-  proofBundle       ProofBundle?
-  operatorValidations OperatorValidation[]
-
-  @@index([vaultId])
-  @@index([status])
-  @@index([createdAt])
-}
-
-enum ExecutionType {
-  HEDGE_OPEN
-  HEDGE_CLOSE
-  YIELD
-  REBALANCE
-}
-
-enum ExecutionStatus {
-  PENDING
-  EVALUATED
-  EXECUTING
-  COMPLETED
-  FAILED
+  hedgePosition      HedgePosition @relation(fields: [hedge_position_id], references: [id])
 }
 
 model ProofBundle {
-  id              String       @id @default(cuid())
-  executionLogId  String       @unique
-  priceData       Json
-  timestamp       DateTime
-  executionRoute  Json
-  ruleHash        String
-  operatorSigs    Json
-  arweaveTxId     String?
-  createdAt       DateTime     @default(now())
+  id                  String   @id @default(cuid())
+  hedge_position_id   String
+  rule_hash           String
+  price_snapshot      Json
+  execution_timestamp DateTime
+  operator_signatures Json
+  proof_data          Json
+  created_at          DateTime @default(now())
 
-  executionLog    ExecutionLog @relation(fields: [executionLogId], references: [id], onDelete: Cascade)
-
-  @@index([arweaveTxId])
-}
-
-model OperatorValidation {
-  id              String       @id @default(cuid())
-  executionLogId  String
-  operatorIndex   Int
-  signature       String
-  validatedAt     DateTime     @default(now())
-
-  executionLog    ExecutionLog @relation(fields: [executionLogId], references: [id], onDelete: Cascade)
-
-  @@unique([executionLogId, operatorIndex])
-  @@index([executionLogId])
+  hedgePosition       HedgePosition @relation(fields: [hedge_position_id], references: [id])
 }
 
 model PriceSnapshot {
-  id                String   @id @default(cuid())
-  asset             String
-  jupiterPrice      BigInt?
-  pythPrice         BigInt?
-  switchboardPrice  BigInt?
-  consensusPrice    BigInt
-  createdAt         DateTime @default(now())
+  id                 String   @id @default(cuid())
+  pyth_price         Float
+  jupiter_price      Float
+  consensus_price    Float
+  deviation_percent  Float
+  is_valid           Boolean
+  captured_at        DateTime @default(now())
+}
 
-  @@index([asset, createdAt])
-  @@index([createdAt])
+model AuditLog {
+  id             String   @id @default(cuid())
+  wallet_address String
+  action         String
+  metadata       Json
+  timestamp      DateTime @default(now())
 }

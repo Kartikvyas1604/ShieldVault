@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { useVaultData } from '@/lib/hooks/useVaultData';
 import { formatTimestamp } from '@/lib/utils';
-import { Button } from '../ui/Button';
+import { Button } from '@shieldvault/ui';
 
 export function StrategyPanel() {
   const { strategies, isLoading } = useVaultData();

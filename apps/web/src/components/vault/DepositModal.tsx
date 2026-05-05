@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
+import { Card } from '@shieldvault/ui';
+import { Button } from '@shieldvault/ui';
 import { useState } from 'react';
 
 export function DepositModal({ onClose }: { onClose: () => void }) {

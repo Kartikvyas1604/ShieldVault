@@ -1,20 +1,34 @@
-import { startPriceWorker } from './price.worker';
-import { startTriggerWorker } from './trigger.worker';
+import { consensusService } from '../backend/modules/price/consensus.service';
+import { driftService } from '../backend/modules/hedge/drift.service';
+import { runTriggerEvaluator } from '../backend/workers/triggerEvaluator.worker';
+import { runHedgeManager } from '../backend/workers/hedgeManager.worker';
+import { runFallbackWorker } from '../backend/workers/fallback.worker';
+import { logger } from '../backend/utils/logger';
 
 async function main() {
-  console.log('Starting Cipher Yield workers...');
+  logger.info('Starting ShieldVault backend workers...');
 
   try {
-    await Promise.all([
-      startPriceWorker(),
-      startTriggerWorker(),
-    ]);
+    await driftService.initialize();
+    await consensusService.start();
 
-    console.log('All workers started successfully');
+    // Start workers
+    runTriggerEvaluator();
+    runHedgeManager();
+    runFallbackWorker();
+
+    logger.info('All workers and services started successfully');
   } catch (error) {
-    console.error('Failed to start workers:', error);
+    logger.error({ err: error }, 'Failed to start workers');
     process.exit(1);
   }
 }
 
 main();
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  logger.info('SIGTERM received. Shutting down gracefully...');
+  consensusService.stop();
+  process.exit(0);
+});

@@ -2,6 +2,7 @@ import { Connection, Keypair } from '@solana/web3.js';
 import { AnchorProvider, Program, Wallet } from '@coral-xyz/anchor';
 import { env } from './env';
 import type { CipherVault } from '../types/cipher_vault';
+// @ts-ignore
 import IDL from '../../../target/idl/cipher_vault.json';
 
 let connection: Connection | null = null;
@@ -33,7 +34,7 @@ export function getProvider(): AnchorProvider {
 export function getProgram(): Program<CipherVault> {
   if (!program) {
     const provider = getProvider();
-    program = new Program(IDL as any, provider);
+    program = new Program(IDL as any, provider as any);
   }
   return program;
 }

@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion';
 import { useVaultData } from '@/lib/hooks/useVaultData';
 import { formatCurrency, formatPercent } from '@/lib/utils';
-import { StatCard } from '../ui/StatCard';
-import { Card } from '../ui/Card';
+import { StatCard } from '@shieldvault/ui';
+import { Card } from '@shieldvault/ui';
 
 export function VaultOverview() {
   const { stats, isLoading } = useVaultData();

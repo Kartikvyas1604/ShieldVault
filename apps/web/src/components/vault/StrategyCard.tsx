@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion';
 import { useVaultData } from '@/lib/hooks/useVaultData';
 import { formatTimestamp } from '@/lib/utils';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
+import { Card } from '@shieldvault/ui';
+import { Button } from '@shieldvault/ui';
 
 export function StrategyCard() {
   const { strategies, isLoading } = useVaultData();
